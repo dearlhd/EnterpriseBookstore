@@ -2,54 +2,50 @@ package ejb.bean;
 
 import java.util.List;
 
-import ejb.remote.BookDaoRemote;
+import ejb.remote.OrderRemote;
 import entityBean.Book;
+import entityBean.Order;
+import entityBean.User;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 /**
- * Session Bean implementation class BookDao
+ * Session Bean implementation class OrderBean
  */
 @Stateless
 @LocalBean
-public class BookDao implements BookDaoRemote {
+public class OrderBean implements OrderRemote {
 
     /**
      * Default constructor. 
      */
-    public BookDao() {
+    public OrderBean() {
         // TODO Auto-generated constructor stub
     }
 
 	@Override
-	public void addBookInfo(Book book) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Book getBookByTitle(String title) {
+	public Order addOrder(Order order) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Book> listBooksByFuzzyTitle(String title) {
+	public List<Order> checkOrderByBuyer(User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void deleteBook(Book book) {
+	public List<Order> checkOrderByBook(Book book) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public void updateBookInfo(Book book) {
+	public List<Order> checkOrderByTime(String time, int flag) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 }

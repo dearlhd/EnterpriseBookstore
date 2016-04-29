@@ -7,7 +7,7 @@ import entityBean.Book;
 
 @Remote
 public interface BookDaoRemote {
-	public void saveBookInfo(Book book);
+	public void addBookInfo(Book book);
 
 	public Book getBookByTitle(String title);
 	

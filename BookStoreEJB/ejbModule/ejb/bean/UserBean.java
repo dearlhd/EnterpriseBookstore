@@ -28,12 +28,6 @@ public class UserBean implements UserRemote {
     }
     
     @Override
-	public boolean login(String username, String password) {
-
-		return false;
-    }
-    
-    @Override
     public String sayHello(String str) {
     	System.out.println("hello world");
     	return "hello "+str;
@@ -56,4 +50,51 @@ public class UserBean implements UserRemote {
     	user = dao.getUserByID(1);
     	return user;
     }
+
+	@Override
+	public User login(User user) {
+		String name = user.getUsername();
+		String psw = user.getPassword();
+		
+		User userInDB = dao.getUserByName(name);
+		if (userInDB != null && userInDB.getPassword().equals(psw)) {
+			return userInDB;
+		}
+		
+		return null;
+	}
+
+	@Override
+	public User register(User user) {
+		String name = user.getUsername();
+		
+		User userInDB = dao.getUserByName(name);
+		if (userInDB == null) {
+			dao.addUser(user);
+			return user;
+		}
+		
+		return null;
+	}
+
+	@Override
+	public User searchUserById(int n) {
+		return dao.getUserByID(n);
+	}
+
+	@Override
+	public User searchUserByName(String name) {
+		return dao.getUserByName(name);
+	}
+
+	@Override
+	public List<User> searchUsersByFuzzyName(String name) {
+		return dao.getUsersByFuzzyName(name);
+	}
+
+	@Override
+	public User updateUserInfo(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
