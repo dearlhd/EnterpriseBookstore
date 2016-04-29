@@ -2,9 +2,15 @@ package entityBean;
 
 import java.io.Serializable;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="users")
 public class User implements Serializable{
 
 	private int userId;
+	
+	@Id
 	private String username;
 	private String password;
 	private int adm;

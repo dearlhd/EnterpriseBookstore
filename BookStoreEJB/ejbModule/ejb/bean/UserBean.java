@@ -5,6 +5,10 @@ import entityBean.User;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import DAO.UserDao;
 
 /**
  * Session Bean implementation class UserBean
@@ -13,6 +17,8 @@ import javax.ejb.Stateless;
 @LocalBean
 public class UserBean implements UserRemote {
 
+	@PersistenceContext(unitName="BookStoreEJB")
+	private EntityManager em;
     /**
      * Default constructor. 
      */
@@ -49,9 +55,9 @@ public class UserBean implements UserRemote {
     @Override
     public User retUser(int n) {
     	User user= new User();
-    	user.setUsername("Luo");
-    	user.setUserId(1234);
+    	user.setUsername("asd");
     	user.setPassword("123123");
+        em.persist(user); //持久化实体  
     	return user;
     }
 }

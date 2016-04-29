@@ -2,8 +2,16 @@ package entityBean;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="books")
 public class Book implements Serializable{
 
+	@Id @GeneratedValue
 	private int bookId;
 	private String title;
 	private String author;
