@@ -29,8 +29,14 @@ public class Test {
 	     try {
 	    	 UserRemote f = (UserRemote) context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + viewClassName);
 	    	 User user = f.retUser(1);
-	    	 System.out.println(user.getUsername());
-	    	 System.out.println(f.sayHello("dong"));
+	    	 if (user == null) {
+	    		 System.out.println("null");
+	    	 }
+	    	 else {
+		    	 System.out.println(user.getUsername());
+		    	 System.out.println(user.getEmail());
+		    	 System.out.println(f.sayHello("dong"));
+	    	 }
 	     } catch (NamingException e) {
 	    	 // TODO Auto-generated catch block
 	    	 e.printStackTrace();

@@ -34,17 +34,20 @@ public class UserBean implements UserRemote {
     @Override
     public String sayHello(String str) {
     	System.out.println("hello world");
-    	return "hi "+str;
+    	return "hello "+str;
     }
     
     @Override
     public User retUser(int n) {
-    	System.out.println("Before new");
-    	System.out.println("After new");
     	User user= new User();
-    	user.setUsername("qqq");
-    	user.setPassword("123123");
-    	dao.addUser(user);
+    	user.setUsername("luo");
+    	user.setPassword("123");
+    	user.setAge(22);
+    	user.setEmail("abc@123.com");
+    	user.setUserId(1);
+    	System.out.println("Before dao");
+    	dao.updateUserInfo(user);
+    	user = dao.getUserByID(1);
     	return user;
     }
 }
