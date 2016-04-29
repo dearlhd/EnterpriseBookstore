@@ -3,7 +3,7 @@ package ejb.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-import ejb.remote.CartRemote;
+import ejb.remote.CartManager;
 import entityBean.Book;
 
 import javax.ejb.LocalBean;
@@ -16,7 +16,7 @@ import javax.ejb.Stateless;
  */
 
 @Stateful
-public class CartBean implements CartRemote {
+public class CartBean implements CartManager {
 
     /**
      * Default constructor. 

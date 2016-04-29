@@ -1,4 +1,4 @@
-package ejb.bean;
+package dao.ejb.bean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import ejb.remote.UserDaoRemote;
+import dao.ejb.remote.UserDaoRemote;
 import entityBean.User;
 
 /**
@@ -39,7 +39,7 @@ public class UserDao implements UserDaoRemote {
 			return null;
 		}
 		else {
-			List<User> users = new ArrayList();
+			List<User> users = new ArrayList<User>();
 			for (int i = 0; i < userlist.size(); i++) {
 				Object []obj = (Object[]) userlist.get(i);
 				User user = new User();
@@ -47,13 +47,11 @@ public class UserDao implements UserDaoRemote {
 				user.setPassword(obj[1].toString());
 				user.setAdm(Integer.parseInt(obj[3].toString()));
 				user.setAge(Integer.parseInt(obj[4].toString()));
-				
 				if (obj[5].toString() != null)
 					user.setEmail(obj[5].toString());
 				
 				users.add(user);
 			}
-			
 			return users;
 		}
 	}
@@ -83,10 +81,11 @@ public class UserDao implements UserDaoRemote {
 	}
 
 	@Override
-	public void updateUserInfo(User user) {
+	public User updateUserInfo(User user) {
 		// TODO Auto-generated method stub
-		em.merge(user); //持久化实体
+		User newUser = em.merge(user); //持久化实体
 		em.flush();
+		return newUser;
 	}
     
 }

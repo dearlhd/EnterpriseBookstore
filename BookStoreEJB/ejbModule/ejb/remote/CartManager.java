@@ -7,7 +7,7 @@ import javax.ejb.Remote;
 import entityBean.Book;
 
 @Remote
-public interface CartRemote {
+public interface CartManager {
 	public void initialize(String person);
 
     public void initialize(String person, String id);

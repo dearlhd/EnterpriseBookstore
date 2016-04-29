@@ -1,4 +1,4 @@
-package ejb.remote;
+package dao.ejb.remote;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ public interface UserDaoRemote {
 	public User getUserByID(int id);
 	public User getUserByName(String name);
 	public List<User> getUsersByFuzzyName(String name);
-	public void updateUserInfo(User user);
+	public User updateUserInfo(User user);
 }

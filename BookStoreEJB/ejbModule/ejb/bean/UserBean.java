@@ -2,8 +2,8 @@ package ejb.bean;
 
 import java.util.List;
 
-import ejb.remote.UserDaoRemote;
-import ejb.remote.UserRemote;
+import dao.ejb.remote.UserDaoRemote;
+import ejb.remote.UserManager;
 import entityBean.User;
 
 import javax.ejb.EJB;
@@ -16,7 +16,7 @@ import javax.ejb.Stateless;
  */
 @Stateless
 @LocalBean
-public class UserBean implements UserRemote {
+public class UserBean implements UserManager {
 
 	@EJB
 	private UserDaoRemote dao;
@@ -94,7 +94,6 @@ public class UserBean implements UserRemote {
 
 	@Override
 	public User updateUserInfo(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.updateUserInfo(user);
 	}
 }

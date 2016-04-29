@@ -2,11 +2,13 @@ package ejb.bean;
 
 import java.util.List;
 
-import ejb.remote.OrderRemote;
+import dao.ejb.remote.OrderDaoRemote;
+import ejb.remote.OrderManager;
 import entityBean.Book;
 import entityBean.Order;
 import entityBean.User;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -15,8 +17,9 @@ import javax.ejb.Stateless;
  */
 @Stateless
 @LocalBean
-public class OrderBean implements OrderRemote {
-
+public class OrderBean implements OrderManager {
+	@EJB
+	OrderDaoRemote dao;
     /**
      * Default constructor. 
      */
@@ -25,27 +28,24 @@ public class OrderBean implements OrderRemote {
     }
 
 	@Override
-	public Order addOrder(Order order) {
-		// TODO Auto-generated method stub
-		return null;
+	public void addOrder(Order order) {
+		dao.addOrder(order);
 	}
 
 	@Override
-	public List<Order> checkOrderByBuyer(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Order> getOrderByBuyer(User user) {
+		return dao.checkOrderByBuyer(user);
 	}
 
 	@Override
-	public List<Order> checkOrderByBook(Book book) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Order> getOrderByBook(Book book) {
+		return dao.checkOrderByBook(book);
 	}
 
 	@Override
-	public List<Order> checkOrderByTime(String time, int flag) {
+	public List<Order> getOrderByTime(String time, int flag) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.checkOrderByTime(time, flag);
 	}
 
 }
