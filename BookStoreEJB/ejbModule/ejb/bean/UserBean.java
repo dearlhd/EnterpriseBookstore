@@ -1,5 +1,7 @@
 package ejb.bean;
 
+import java.util.List;
+
 import ejb.remote.UserDaoRemote;
 import ejb.remote.UserRemote;
 import entityBean.User;
@@ -46,7 +48,11 @@ public class UserBean implements UserRemote {
     	user.setEmail("abc@123.com");
     	user.setUserId(1);
     	System.out.println("Before dao");
-    	dao.updateUserInfo(user);
+    	List<User> ulist = dao.getUsersByFuzzyName("l");
+    	System.out.println(ulist.size());
+    	if (ulist.size() > 0) {
+    		System.out.println(ulist.get(0).getUsername());
+    	}
     	user = dao.getUserByID(1);
     	return user;
     }

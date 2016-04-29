@@ -1,5 +1,6 @@
 package ejb.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -32,22 +33,28 @@ public class UserDao implements UserDaoRemote {
         em.persist(user); //持久化实体  
 	}
 
-	public User getUserBySql (Query query) {
+	public List<User> getUsersBySql (Query query) {
 		List userlist = query.getResultList();
 		if (userlist.size() == 0) {
 			return null;
 		}
 		else {
-			Object []obj = (Object[]) userlist.get(0);
-			User user = new User();
-			user.setUsername(obj[0].toString());
-			user.setPassword(obj[1].toString());
-			user.setAdm(Integer.parseInt(obj[3].toString()));
-			user.setAge(Integer.parseInt(obj[4].toString()));
+			List<User> users = new ArrayList();
+			for (int i = 0; i < userlist.size(); i++) {
+				Object []obj = (Object[]) userlist.get(i);
+				User user = new User();
+				user.setUsername(obj[0].toString());
+				user.setPassword(obj[1].toString());
+				user.setAdm(Integer.parseInt(obj[3].toString()));
+				user.setAge(Integer.parseInt(obj[4].toString()));
+				
+				if (obj[5].toString() != null)
+					user.setEmail(obj[5].toString());
+				
+				users.add(user);
+			}
 			
-			if (obj[5].toString() != null)
-				user.setEmail(obj[5].toString());
-			return user;
+			return users;
 		}
 	}
 	
@@ -56,7 +63,7 @@ public class UserDao implements UserDaoRemote {
 		Query query = em.createNativeQuery("select * from Users Where UserId=:id");
 		query.setParameter("id", id);
 		
-		return getUserBySql(query);
+		return getUsersBySql(query).get(0);
 
 	}
 
@@ -65,13 +72,14 @@ public class UserDao implements UserDaoRemote {
 		Query query = em.createNativeQuery("select * from Users Where username=:username");
 		query.setParameter("username", name);
 		
-		return getUserBySql(query);
+		return getUsersBySql(query).get(0);
 	}
 
 	@Override
 	public List<User> getUsersByFuzzyName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = em.createNativeQuery("select * from Users Where username like :username");
+		query.setParameter("username", "%"+name+"%");
+		return getUsersBySql(query);
 	}
 
 	@Override
