@@ -1,14 +1,13 @@
 package ejb.bean;
 
+import ejb.remote.UserDaoRemote;
 import ejb.remote.UserRemote;
 import entityBean.User;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
-import DAO.UserDao;
 
 /**
  * Session Bean implementation class UserBean
@@ -17,8 +16,8 @@ import DAO.UserDao;
 @LocalBean
 public class UserBean implements UserRemote {
 
-	@PersistenceContext(unitName="BookStoreEJB")
-	private EntityManager em;
+	@EJB
+	private UserDaoRemote dao;
     /**
      * Default constructor. 
      */
@@ -28,21 +27,7 @@ public class UserBean implements UserRemote {
     
     @Override
 	public boolean login(String username, String password) {
-//		try {
-//			// 此处指定了使用配置文件的“Sample"验证模块，对应的实现类为SimpleLoginModule
-//			System.out.println("Prepare jaas!");
-//			LoginContext lc = new LoginContext("Simple",
-//					new SimpleCallbackHandler(username, password));
-//
-//			System.out.println("context prepared!");
-//			// 进行登录操作，如果验证失败会抛出异常
-//			lc.login();
-//			System.out.println("ok");
-//		} catch (LoginException e) {
-//			e.printStackTrace();
-//		} catch (SecurityException e) {
-//			e.printStackTrace();
-//		}
+
 		return false;
     }
     
@@ -54,10 +39,12 @@ public class UserBean implements UserRemote {
     
     @Override
     public User retUser(int n) {
+    	System.out.println("Before new");
+    	System.out.println("After new");
     	User user= new User();
-    	user.setUsername("asd");
+    	user.setUsername("qqq");
     	user.setPassword("123123");
-        em.persist(user); //持久化实体  
+    	dao.addUser(user);
     	return user;
     }
 }
