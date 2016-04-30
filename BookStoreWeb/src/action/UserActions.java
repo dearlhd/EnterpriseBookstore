@@ -7,9 +7,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONObject;
-
 import org.apache.struts2.ServletActionContext;
+import org.hornetq.utils.json.JSONException;
+import org.hornetq.utils.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -53,14 +53,24 @@ public class UserActions extends ActionSupport{
 		if (user == null) {
     		System.out.println("fail");
     		JSONObject jo = new JSONObject();
-    		jo.put("msg", "fail");
+    		try {
+				jo.append("msg", "fail");
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     		ja = jo.toString();
     		System.out.println(ja);
     	}
     	else {
     		System.out.println("success");
     		JSONObject jo = new JSONObject();
-    		jo.put("msg", "success");
+    		try {
+				jo.append("msg", "success");
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     		ja = jo.toString();
     		System.out.println(ja);
     		HttpSession session = ServletActionContext.getRequest().getSession();
@@ -82,6 +92,7 @@ public class UserActions extends ActionSupport{
 	    	UserManager um = (UserManager) context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + viewClassName);
 	    	if (actions.equals("login") || actions.equals("register")) {
 			    login (um);
+			    System.out.println("return login");
 		    }
 	    } catch (NamingException e) {
 	    	 // TODO Auto-generated catch block

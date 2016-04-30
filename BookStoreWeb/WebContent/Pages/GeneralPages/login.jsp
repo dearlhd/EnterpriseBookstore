@@ -99,7 +99,7 @@
 	  				function(data){
 	  					var msg = eval("("+data+")");
 	  					if (msg.msg == "success") {
-	  						window.location.href="<%=request.getContextPath()%>/Pages/UserPages/success.jsp";
+	  						window.location.href="<%=request.getContextPath()%>/Pages/UserPages/queryBook.jsp";
 	  					}
 	  					else {
 	  						sweetAlert("", "Wrong username or password!", "error");
