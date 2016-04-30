@@ -61,8 +61,11 @@ public class UserDao implements UserDaoRemote {
 		Query query = em.createNativeQuery("select * from Users Where UserId=:id");
 		query.setParameter("id", id);
 		
-		return getUsersBySql(query).get(0);
-
+		List<User> ul = getUsersBySql(query);
+		if (ul == null) {
+			return null;
+		}
+		return ul.get(0);
 	}
 
 	@Override
@@ -70,14 +73,23 @@ public class UserDao implements UserDaoRemote {
 		Query query = em.createNativeQuery("select * from Users Where username=:username");
 		query.setParameter("username", name);
 		
-		return getUsersBySql(query).get(0);
+		List<User> ul = getUsersBySql(query);
+		if (ul == null) {
+			return null;
+		}
+		return ul.get(0);
 	}
 
 	@Override
 	public List<User> getUsersByFuzzyName(String name) {
 		Query query = em.createNativeQuery("select * from Users Where username like :username");
 		query.setParameter("username", "%"+name+"%");
-		return getUsersBySql(query);
+		
+		List<User> ul = getUsersBySql(query);
+		if (ul == null) {
+			return null;
+		}
+		return ul;
 	}
 
 	@Override

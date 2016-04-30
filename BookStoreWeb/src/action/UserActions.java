@@ -60,7 +60,7 @@ public class UserActions extends ActionSupport{
 		    		jo.append("msg", "fail");
 		    		ja = jo.toString();
 		    		System.out.println(ja);
-		    		return "error";
+		    		return "success";
 		    	}
 		    	else {
 		    		System.out.println("success");

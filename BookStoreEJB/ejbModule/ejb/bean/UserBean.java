@@ -56,6 +56,7 @@ public class UserBean implements UserManager {
 		String name = user.getUsername();
 		String psw = user.getPassword();
 		
+		System.out.println("In login bean:");
 		User userInDB = dao.getUserByName(name);
 		if (userInDB != null && userInDB.getPassword().equals(psw)) {
 			return userInDB;
