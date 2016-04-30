@@ -74,7 +74,7 @@ public class UserBean implements UserManager {
 			dao.addUser(user);
 			return user;
 		}
-		
+		System.out.println("register: "+userInDB.getUsername());
 		return null;
 	}
 

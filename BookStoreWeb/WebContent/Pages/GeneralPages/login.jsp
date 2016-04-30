@@ -90,27 +90,60 @@
         var psw = document.getElementById('password').value;
         
         var userInfo = {
-        		"user.username" : uname,
-        		"user.password" : psw,
+    			"user.username" : uname,
+    			"user.password" : psw,
         		"actions" : "login"
-        };
+				};
         
-        $.post("loginAction", 
-  				{
-        			"user.username" : uname,
-        			"user.password" : psw,
-            		"actions" : "login"
-  				},
+        $.post("accountActions", userInfo,
+	  				function(data){
+	  					var msg = eval("("+data+")");
+	  					if (msg.msg == "success") {
+	  						window.location.href="<%=request.getContextPath()%>/Pages/UserPages/success.jsp";
+	  					}
+	  					else {
+	  						sweetAlert("", "Wrong username or password!", "error");
+	  					}
+				}, 'json');
+	}
+	
+	function register () {
+		var uname = document.getElementById('usernamesignup').value;
+        var psw = document.getElementById('passwordsignup').value;
+        var pswcp = document.getElementById('passwordsignup_confirm').value;
+        var age = document.getElementById('agesignup').value;
+        var email = document.getElementById('emailsignup').value;
+
+        if (uname == "" || psw == "" || pswcp == "" || age == "" || email == "") {
+            sweetAlert("", "You must input all the info!", "error");
+            return false;
+        }
+        
+        if (psw != pswcp) {
+            sweetAlert("", "Differences exist between two input in password!", "error");
+            return false;
+        }
+        
+        var userInfo = {
+    			"user.username" : uname,
+    			"user.password" : psw,
+    			"user.age" : age,
+    			"user.email" : email,
+        		"actions" : "register"
+				};
+        
+        $.post("accountActions", userInfo,
   				function(data){
   					var msg = eval("("+data+")");
   					if (msg.msg == "success") {
-  						sweetAlert("", "Wrong username or password!", "error");
   						window.location.href="<%=request.getContextPath()%>/Pages/UserPages/success.jsp";
   					}
   					else {
-  						sweetAlert("", "Wrong username or password!", "error");
+  						sweetAlert("", "This username is exsited!", "error");
   					}
-				}, 'json');
+			}, 'json');
+
+        
 	}
 </script>
 </html>
