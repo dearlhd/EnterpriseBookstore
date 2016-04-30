@@ -7,7 +7,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import ejb.bean.UserBean;
-import ejb.remote.UserRemote;
+import ejb.remote.UserManager;
 import entityBean.User;
 
 
@@ -25,9 +25,9 @@ public class Test {
 
 	     final String beanName = UserBean.class.getSimpleName();           //这里为实现类的名称
 
-	     final String viewClassName = UserRemote.class.getName();        //这里为你的接口名称
+	     final String viewClassName = UserManager.class.getName();        //这里为你的接口名称
 	     try {
-	    	 UserRemote f = (UserRemote) context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + viewClassName);
+	    	 UserManager f = (UserManager) context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + viewClassName);
 	    	 User user = f.retUser(1);
 	    	 if (user == null) {
 	    		 System.out.println("null");

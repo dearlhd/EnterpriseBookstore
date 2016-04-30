@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<include file="struts-default.xml" />
+	
+	<package name="login" extends="struts-default">
+		<action name="loginAction" class="action.UserActions">
+			<result name="input">Pages/GeneralPages/GeneralMsg.jsp</result>
+			<result name="success">/UserUI/a.jsp</result>
+			<result name="error">/GeneralUI/GeneralMsg.jsp</result>
+		</action>
+	</package>
+	
+</struts>
