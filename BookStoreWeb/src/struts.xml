@@ -22,5 +22,13 @@
 			</result>
 		</action>
 	</package>
+	
+	<package name="bookActions" extends="struts-default, json-default">
+		<action name="bookActions" class="action.BookActions">
+			<result type = "json">
+				<param name = "root">ja</param>
+			</result>
+		</action>
+	</package>
 		
 </struts>

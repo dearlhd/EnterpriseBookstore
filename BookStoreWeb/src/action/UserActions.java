@@ -7,9 +7,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONObject;
+
 import org.apache.struts2.ServletActionContext;
-import org.hornetq.utils.json.JSONException;
-import org.hornetq.utils.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -42,7 +42,7 @@ public class UserActions extends ActionSupport{
 		this.ja = ja;
 	}
 	
-	public void login (UserManager um) throws JSONException {
+	public void login (UserManager um) {
 		if (actions.equals("login")) {
 			user = um.login(user);
 		}
@@ -53,14 +53,14 @@ public class UserActions extends ActionSupport{
 		if (user == null) {
     		System.out.println("fail");
     		JSONObject jo = new JSONObject();
-    		jo.append("msg", "fail");
+    		jo.put("msg", "fail");
     		ja = jo.toString();
     		System.out.println(ja);
     	}
     	else {
     		System.out.println("success");
     		JSONObject jo = new JSONObject();
-    		jo.append("msg", "success");
+    		jo.put("msg", "success");
     		ja = jo.toString();
     		System.out.println(ja);
     		HttpSession session = ServletActionContext.getRequest().getSession();
