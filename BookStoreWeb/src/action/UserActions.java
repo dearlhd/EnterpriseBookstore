@@ -5,6 +5,10 @@ import java.util.Hashtable;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
+import org.hornetq.utils.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -14,7 +18,8 @@ import entityBean.User;
 
 public class UserActions extends ActionSupport{
 	private User user;
-	private String action;
+	private String actions;
+	private String ja;
 	
 	public User getUser() {
 		return user;
@@ -22,38 +27,55 @@ public class UserActions extends ActionSupport{
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public String getAction() {
-		return action;
+	public String getActions() {
+		return actions;
 	}
-	public void setAction(String action) {
-		this.action = action;
+	public void setActions(String actions) {
+		this.actions = actions;
 	}
 	
+	public String getJa() {
+		return ja;
+	}
+	public void setJa(String ja) {
+		this.ja = ja;
+	}
 	public String execute() throws Exception{
 		System.out.println("In action");
 		final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
-		 jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
-		 final Context context = new InitialContext(jndiProperties);
-		 final String appName = "";        //这里是.EAR包的名称，如果你打包成JAR发布的话，这里则留空
-	     final String moduleName = "BookStoreEJB";        //这里是你发布的JAR文件名，如helloworld.jar,则这里应该为helloworld。去掉后缀即可
-	     final String distinctName = "";                  //如果没有定义其更详细的名称，则这里留空
-	     final String beanName = UserBean.class.getSimpleName();           //这里为实现类的名称
-	     final String viewClassName = UserManager.class.getName();        //这里为你的接口名称
-	     try {
-	    	 UserManager um = (UserManager) context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + viewClassName);
-	    	 System.out.println("Before login");
-	    	 user = um.login(user);
-	    	 System.out.println("after login");
-	    	 if (user == null) {
-	    		 System.out.println("null");
-	    	 }
-	    	 else {
-		    	 System.out.println(user.getUsername());
-		    	 System.out.println(user.getEmail());
-	    	 }
-	     } catch (NamingException e) {
-	    	 // TODO Auto-generated catch block
-	    	 e.printStackTrace();
+		jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
+		final Context context = new InitialContext(jndiProperties);
+		final String appName = "";        //这里是.EAR包的名称，如果你打包成JAR发布的话，这里则留空
+	    final String moduleName = "BookStoreEJB";        //这里是你发布的JAR文件名，如helloworld.jar,则这里应该为helloworld。去掉后缀即可
+	    final String distinctName = "";                  //如果没有定义其更详细的名称，则这里留空
+	    final String beanName = UserBean.class.getSimpleName();           //这里为实现类的名称
+	    final String viewClassName = UserManager.class.getName();        //这里为你的接口名称
+	    if (actions.equals("login")) {
+		    try {
+		    	UserManager um = (UserManager) context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + viewClassName);
+		    	user = um.login(user);
+		    	if (user == null) {
+		    		System.out.println("fail");
+		    		JSONObject jo = new JSONObject();
+		    		jo.append("msg", "fail");
+		    		ja = jo.toString();
+		    		System.out.println(ja);
+		    		return "error";
+		    	}
+		    	else {
+		    		System.out.println("success");
+		    		JSONObject jo = new JSONObject();
+		    		jo.append("msg", "success");
+		    		ja = jo.toString();
+		    		System.out.println(ja);
+		    		HttpSession session = ServletActionContext.getRequest().getSession();
+		    		session.setAttribute("user", user);
+		    		return "success";
+		    	}
+		    } catch (NamingException e) {
+		    	 // TODO Auto-generated catch block
+		    	e.printStackTrace();
+		    }
 	    }
 		return "success";
 	}

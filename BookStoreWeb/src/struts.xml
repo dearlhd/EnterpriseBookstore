@@ -7,11 +7,11 @@
 
 	<include file="struts-default.xml" />
 	
-	<package name="login" extends="struts-default">
+	<package name="login" extends="struts-default, json-default">
 		<action name="loginAction" class="action.UserActions">
-			<result name="input">/Fail.jsp</result>
-			<result name="success">/Fail.jsp</result>
-			<result name="error">/Fail.jsp</result>
+			<result type = "json">
+				<param name = "root">ja</param>
+			</result>
 		</action>
 	</package>
 		

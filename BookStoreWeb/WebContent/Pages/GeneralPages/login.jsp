@@ -37,7 +37,7 @@
                             <input id="password" name="user.password" required="required" type="password" placeholder="eg. X8df!90EO" />
                         </p>
                         <p class="login button">
-                            <input type="submit" onclick="login()" value="Login" />
+                            <input type="button" onclick="login()" value="Login" />
                         </p>
                         <p class="change_link">
                             Not a member yet ?
@@ -84,4 +84,33 @@
     </section>
 </div>
 </body>
+<script type="text/javascript">
+	function login () {
+		var uname = document.getElementById('username').value;
+        var psw = document.getElementById('password').value;
+        
+        var userInfo = {
+        		"user.username" : uname,
+        		"user.password" : psw,
+        		"actions" : "login"
+        };
+        
+        $.post("loginAction", 
+  				{
+        			"user.username" : uname,
+        			"user.password" : psw,
+            		"actions" : "login"
+  				},
+  				function(data){
+  					var msg = eval("("+data+")");
+  					if (msg.msg == "success") {
+  						sweetAlert("", "Wrong username or password!", "error");
+  						window.location.href="<%=request.getContextPath()%>/Pages/UserPages/success.jsp";
+  					}
+  					else {
+  						sweetAlert("", "Wrong username or password!", "error");
+  					}
+				}, 'json');
+	}
+</script>
 </html>
