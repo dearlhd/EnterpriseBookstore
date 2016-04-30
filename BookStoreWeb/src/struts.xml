@@ -9,10 +9,10 @@
 	
 	<package name="login" extends="struts-default">
 		<action name="loginAction" class="action.UserActions">
-			<result name="input">Pages/GeneralPages/GeneralMsg.jsp</result>
-			<result name="success">/UserUI/a.jsp</result>
-			<result name="error">/GeneralUI/GeneralMsg.jsp</result>
+			<result name="input">/Fail.jsp</result>
+			<result name="success">/Fail.jsp</result>
+			<result name="error">/Fail.jsp</result>
 		</action>
 	</package>
-	
+		
 </struts>
