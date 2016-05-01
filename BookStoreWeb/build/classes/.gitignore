@@ -1,1 +1,4 @@
 /action/
+/client/
+/jboss-ejb-client.properties
+/jndi.properties

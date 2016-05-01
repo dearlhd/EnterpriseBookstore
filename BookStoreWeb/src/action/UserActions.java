@@ -13,7 +13,9 @@ import org.hornetq.utils.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import ejb.bean.CartBean;
 import ejb.bean.UserBean;
+import ejb.remote.CartManager;
 import ejb.remote.UserManager;
 import entityBean.User;
 
@@ -91,7 +93,9 @@ public class UserActions extends ActionSupport{
 	    try {
 	    	UserManager um = (UserManager) context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + viewClassName);
 	    	if (actions.equals("login") || actions.equals("register")) {
-			    login (um);
+	    		CartManager cm = (CartManager) context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + CartBean.class.getSimpleName() + "!" + CartManager.class.getName() + "?stateful");
+	    		cm.commitToOrder();
+			    //login (um);
 			    System.out.println("return login");
 		    }
 	    } catch (NamingException e) {

@@ -1,4 +1,2 @@
+/jboss-ejb-client.properties
 /ejb/
-/dao/
-/META-INF/
-/entityBean/
