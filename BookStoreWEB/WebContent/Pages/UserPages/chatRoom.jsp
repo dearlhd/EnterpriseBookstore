@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import = "entityBean.User" %>
+<%
+	User user = new User();
+	user = (User) session.getAttribute("user");
+	if (user == null) {
+		 response.sendRedirect(request.getContextPath()+"/GeneralUI/Login.jsp");
+	}
+	String username = user.getUsername();
+%>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -47,10 +56,13 @@
                         </div>
                     </li>
                     <li>
-                        <a class="active-menu" href="<%=request.getContextPath()%>/Pages/UserPages/queryBook.jsp">Query Books</a>
+                        <a href="<%=request.getContextPath()%>/Pages/UserPages/queryBook.jsp">Query Books</a>
                     </li>
                     <li>
                         <a href="<%=request.getContextPath()%>/Pages/UserPages/userOrders.jsp">My orders</a>
+                    </li>
+                    <li>
+                        <a class="active-menu" href="<%=request.getContextPath()%>/Pages/UserPages/chatRoom.jsp">Chat room</a>
                     </li>
                 </ul>
 
@@ -113,13 +125,15 @@
 	}
 
 	function sendMessage() {
-		var input = document.getElementById("chatInput");
-		wsocket.send("Hello");
+		var inputElement = document.getElementById("chatInput");
+		var inputVal = inputElement.value;
+		wsocket.send("<%=username%>: "+inputVal);
 	}
 	
 	function onMessage (evt){
 		console.log(evt);
 		console.log(evt.data);
+		$("#textarea").append(evt.data+"\n");
 	}
 	window.addEventListener("load", connect, false);
 </script>

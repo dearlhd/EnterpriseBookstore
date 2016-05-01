@@ -52,6 +52,9 @@
                     <li>
                         <a href="<%=request.getContextPath()%>/Pages/UserPages/userOrders.jsp">My orders</a>
                     </li>
+                    <li>
+                        <a href="<%=request.getContextPath()%>/Pages/UserPages/chatRoom.jsp">Chat room</a>
+                    </li>
                 </ul>
 
             </div>

@@ -4,12 +4,17 @@ import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import javax.servlet.http.HttpSession;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+
+import org.apache.struts2.ServletActionContext;
+
+import entityBean.User;
 
 @ServerEndpoint("/chatRoom")
 public class ChatRoomEndPoint {
@@ -35,6 +40,10 @@ public class ChatRoomEndPoint {
     
     @OnMessage
     public void onMessage(String msg) {
+    	//HttpSession httpSession = ServletActionContext.getRequest().getSession();
+    	//User user = (User)httpSession.getAttribute("user");
+    	//String username = user.getUsername();
+    	//msg = username + ": " + msg;
     	System.out.println(msg);
         send(msg);
     }
