@@ -80,21 +80,22 @@
                 <!-- /. ROW  -->
                 
                 <div class="row">
-				    <textarea id="chatInput" cols="70" rows="1"></textarea>
-				    <input type="submit" id="join" value="Send!" onclick="sendMessage()"/><br/>
-				</div>
-				<div class="row">
-				    <textarea id="textarea" cols="70" rows="20" readonly="true"></textarea>
-				    <textarea id="userlist" cols="20" rows="20" readonly="true"></textarea>
-				    <br/><br/><br/>
-				    <input id="showhideconsole" type="checkbox" onclick="showHideConsole();"/>
-				    Show WebSocket console<br/>
-				    <div id="consolediv">
-				    	<textarea id="wsconsole" cols="80" rows="8" readonly="true" style="font-size:8pt;"></textarea>
+                	<div class="col-md-12">
+                		<div class="form-inline">
+				    	<textarea id="chatInput" class="form-control" cols="70" rows="1" onkeyup="checkJoin(event);"></textarea>
+				    	<button id="join" class="btn btn-primary" onclick="sendMessage()">Send!</button>
+				    	</div>
 				    </div>
+				</div>
+				<br/>
+				<div class="row">
+					<div class="col-md-7">
+				    	<textarea id="textarea" class="form-control" cols="70" rows="20" readonly="true"></textarea>
+				    	<textarea id="userlist" style="display:none" cols="20" rows="20" readonly="true"></textarea>
+				    </div>
+				    
 		        </div>
 		        <!-- /. ROW  -->
-
             </div>
             <!-- /. PAGE INNER  -->
         </div>
@@ -120,19 +121,36 @@
 <script type="text/javascript">
 	var wsocket;
 	function connect() {
-		wsocket = new WebSocket("ws://localhost:8888/BookStoreWEB/chatRoom");
+		wsocket = new WebSocket("ws://59.78.22.100:8888/BookStoreWEB/chatRoom");
         wsocket.onmessage = onMessage;
 	}
+	
+	function checkJoin(evt) {
+		var inputElement = document.getElementById("chatInput");
+		var inputVal = inputElement.value;
+		if (evt.keyCode === 13 && inputVal.length == 1) {
+			document.getElementById("chatInput").value = null;
+		}
+		
+        if (evt.keyCode === 13 && inputVal.length > 1) {
+            sendMessage();
+        }
+    }
 
 	function sendMessage() {
 		var inputElement = document.getElementById("chatInput");
 		var inputVal = inputElement.value;
+		if (inputVal.length == 0) {
+			return;
+		}
+		
+		if (inputVal[inputVal.length-1] == '\n' || inputVal[inputVal.length-1] == '\r')
+			inputVal = inputVal.substring(0, inputVal.length-1);
 		wsocket.send("<%=username%>: "+inputVal);
+		document.getElementById("chatInput").value = null;
 	}
 	
 	function onMessage (evt){
-		console.log(evt);
-		console.log(evt.data);
 		$("#textarea").append(evt.data+"\n");
 	}
 	window.addEventListener("load", connect, false);
