@@ -29,6 +29,7 @@ public class OrderBean implements OrderManager {
 
 	@Override
 	public void addOrder(Order order) {
+		System.out.println("In order bean");
 		dao.addOrder(order);
 	}
 

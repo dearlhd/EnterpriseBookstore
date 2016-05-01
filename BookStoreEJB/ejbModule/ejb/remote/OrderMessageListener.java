@@ -1,8 +1,10 @@
 package ejb.remote;
 
 import javax.ejb.ActivationConfigProperty;
+import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
 import javax.jms.*;
+import ejb.remote.OrderManager;
 
 import entityBean.Order;
 
@@ -17,6 +19,8 @@ import entityBean.Order;
 		})
 public class OrderMessageListener implements MessageListener {
 
+	@EJB
+	OrderManager orderManager;
     /**
      * Default constructor. 
      */
@@ -33,6 +37,7 @@ public class OrderMessageListener implements MessageListener {
         		ObjectMessage om = (ObjectMessage)message;
         		Order order = (Order)om.getObject();
         		System.out.println(order.getBookTitle());
+        		orderManager.addOrder(order);
         	}
         } catch (JMSException e) {
         	e.printStackTrace();

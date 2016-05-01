@@ -1,6 +1,7 @@
 package ejb.bean;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
@@ -80,14 +81,10 @@ public class CartBean implements CartManager {
         cnt = null;
     }
 
+    static int commitCnt = 0;
+    
 	@Override
 	public void commitToOrder() {
-	    final String DEFAULT_USERNAME = "luo";
-	    final String DEFAULT_PASSWORD = "123";
-	    
-	    //Context context=null;
-        //Connection connection=null;
-	    
 		try {
 			final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
 			jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
@@ -98,44 +95,42 @@ public class CartBean implements CartManager {
 			QueueConnection cnn = factory.createQueueConnection();
 			QueueSession session = cnn.createQueueSession(false, QueueSession.AUTO_ACKNOWLEDGE);
 			QueueSender sender = session.createSender(dest);
-			ObjectMessage msg = session.createObjectMessage();
-//			System.out.println("In commit to order");
-//			final Properties env = new Properties();
-//			env.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
-//            context = new InitialContext(env);
-//			
-//            ConnectionFactory connectionFactory = (ConnectionFactory) context.lookup("RemoteConnectionFactory");
-//            Destination destination = (Destination) context.lookup("jms/orderMessageQueue");
-//            
-//         // 创建JMS连接、会话、生产者和消费者
-//            connection = connectionFactory.createConnection(DEFAULT_USERNAME, DEFAULT_PASSWORD);
-//            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-//            MessageProducer producer = session.createProducer(destination);
-//            connection.start();
-            
-//			Properties props = new Properties();  
-//            Properties properties = new Properties();  
-//            properties.put("java.naming.factory.initial",   //提供JNDI 服务器  
-//                             "org.jnp.interfaces.NamingContextFactory");  
-//            properties.put("java.naming.factory.url.pkgs",  
-//                             "org.jboss.naming:org.jnp.interfaces");  
-//            properties.put("java.naming.provider.url", "localhost:1099");
-//            
-//            InitialContext ctx = new InitialContext(props);  
-//            ConnectionFactory factory = (ConnectionFactory) ctx.lookup("RemoteConnectionFactory");  
-//            conn = factory.createConnection();
-//            session = conn.createSession(false,QueueSession.AUTO_ACKNOWLEDGE);  
-//            Destination destination = (Queue) ctx.lookup("queue/orderMessageQueue");  
-//            MessageProducer producer = session.createProducer(destination);
-            Order order = new Order();
-            order.setBookTitle("book");
-            order.setBuyer("luo");
-            order.setPrice(11.5);
-            order.setOrderTime("2015-05-01");
-            ObjectMessage om = session.createObjectMessage(order);
-            System.out.println("before send");
-            sender.send(om);
-            //producer.send(om);
+
+			for (int i = 0; i < contents.size(); i++) {
+				Order order = new Order();
+				order.setBookTitle(contents.get(i).getTitle());
+				order.setBuyer(user.getUsername());
+				order.setPrice(contents.get(i).getPrice());
+				Calendar c = Calendar.getInstance();
+				int year = c.get(Calendar.YEAR);
+				int mouth = c.get(Calendar.MONTH);
+				int day = c.get(Calendar.DATE);
+				System.out.println(year + " " + mouth + " " + day);
+				String orderDate = String.valueOf(year) + "-" + String.valueOf(mouth) + "-" + String.valueOf(day);
+				order.setOrderTime(orderDate);
+				
+				String idStr = String.valueOf(year) + String.valueOf(mouth) + String.valueOf(day) 
+								+ String.valueOf(c.get(Calendar.HOUR_OF_DAY)) + String.valueOf(c.get(Calendar.MINUTE))
+								+ String.valueOf(c.get(Calendar.SECOND)) + String.valueOf(user.getUserId());
+				order.setOrderId(Integer.parseInt(idStr));
+				
+				ObjectMessage om = session.createObjectMessage(order);
+				sender.send(om);
+			}
+			
+//            Order order = new Order();
+//            order.setOrderId(1);
+//            order.setBookTitle("book");
+//            order.setBuyer("luo");
+//            order.setPrice(11.5);
+//            order.setOrderTime("2015-05-01");
+//            ObjectMessage om = session.createObjectMessage(order);
+//            System.out.println("before send " + commitCnt);
+//            commitCnt++;
+//            sender.send(om);
+//            //producer.send(om);
+            cnn.close();
+            session.close();
             
             
 		} catch (NamingException e) {

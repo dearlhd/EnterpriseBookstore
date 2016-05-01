@@ -13,14 +13,21 @@ import javax.persistence.*;
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id @GeneratedValue
+	@Id
 	private int orderId;
 	
 	private String bookTitle;
 	private String buyer;
 	private double price;
 	private String orderTime;
+	private int count;
 	
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	public int getOrderId() {
 		return orderId;
 	}

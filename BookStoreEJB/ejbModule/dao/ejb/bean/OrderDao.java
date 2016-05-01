@@ -31,7 +31,7 @@ public class OrderDao implements OrderDaoRemote {
 
 	@Override
 	public void addOrder(Order order) {
-		em.persist(order);;
+		em.persist(order);
 		return;
 	}
 

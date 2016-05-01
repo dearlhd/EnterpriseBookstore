@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Table(name="books")
 public class Book implements Serializable{
 
-	@Id @GeneratedValue
+	@Id
 	private int bookId;
 	private String title;
 	private String author;
