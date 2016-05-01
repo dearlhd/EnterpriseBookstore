@@ -141,7 +141,7 @@
   					else {
   						sweetAlert("", "This username is exsited!", "error");
   					}
-			}, 'json');
+				}, 'json');
 
         
 	}

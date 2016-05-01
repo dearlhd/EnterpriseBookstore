@@ -93,10 +93,8 @@ public class UserActions extends ActionSupport{
 	    try {
 	    	UserManager um = (UserManager) context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + viewClassName);
 	    	if (actions.equals("login") || actions.equals("register")) {
-	    		CartManager cm = (CartManager) context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + CartBean.class.getSimpleName() + "!" + CartManager.class.getName() + "?stateful");
-	    		cm.commitToOrder();
-			    //login (um);
-			    System.out.println("return login");
+			    login (um);
+			    System.out.println("login returned");
 		    }
 	    } catch (NamingException e) {
 	    	 // TODO Auto-generated catch block

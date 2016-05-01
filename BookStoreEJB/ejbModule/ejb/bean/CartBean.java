@@ -44,13 +44,23 @@ public class CartBean implements CartManager {
 
     @Override
     public void addBook(Book book) {
+    	if (contents == null) {
+    		System.out.println("Without initialization");
+    		return;
+    	}
+    	else {
+    		System.out.println("Initialized");
+    		System.out.println(contents.size());
+    	}
     	for (int i = 0; i < contents.size(); i++) {
+    		System.out.println("i: "+i);
     		if (contents.get(i).getBookId() == book.getBookId()) {
     			cnt.set(i, cnt.get(i)+1);
     			return;
     		}
     	}
         contents.add(book);
+        cnt.add(1);
     }
 
     @Override
