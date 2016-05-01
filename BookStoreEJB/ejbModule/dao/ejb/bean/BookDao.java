@@ -40,7 +40,7 @@ public class BookDao implements BookDaoRemote {
 			return null;
 		}
 		else {
-			List<Book> books = new ArrayList();
+			List<Book> books = new ArrayList<Book>();
 			for (int i = 0; i < booklist.size(); i++) {
 				Object []obj = (Object[]) booklist.get(i);
 				Book book = new Book();

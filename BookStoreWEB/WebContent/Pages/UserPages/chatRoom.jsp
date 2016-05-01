@@ -152,6 +152,7 @@
 	
 	function onMessage (evt){
 		$("#textarea").append(evt.data+"\n");
+		document.getElementById("textarea").scrollTop;
 	}
 	window.addEventListener("load", connect, false);
 </script>

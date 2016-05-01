@@ -112,10 +112,30 @@
     
 </body>
 <script type="text/javascript">
-	function searchBook() {
+	function searchBooks() {
 		var arg = $("#searchWhat").val();
 		var searchType = $("#searchMethod option:selected").val();
+
+		var searchInfo;
+		if (searchType == "title") {
+			searchInfo = {
+					"book.title":arg,
+					"actions": "queryByTitle"
+			}
+		}
+		else if (searchType == "author") {
+			searchInfo = {
+					"book.title": arg,
+					"actions": "queryByAuthor"
+			}
+		}
 		
+		$.post("bookActions", searchInfo,
+  				function(data){
+  					var msg = eval("("+data+")");
+  					console.log(msg);
+  					
+				}, 'json');
 		
 	}
 </script>

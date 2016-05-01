@@ -13,4 +13,6 @@ public interface BookManager {
 	public Book updateBookInfo(Book book);
 	public List<Book> searchBooksByTitle(String title);
 	public List<Book> searchBooksByAuthor(String author);
+	
+	public List<Book> searchBooksByFuzzyTitle(String title);
 }

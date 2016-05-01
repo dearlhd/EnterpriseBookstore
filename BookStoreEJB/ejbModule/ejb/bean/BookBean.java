@@ -43,12 +43,20 @@ public class BookBean implements BookManager {
 
 	@Override
 	public List<Book> searchBooksByTitle(String title) {
+		System.out.println("Search by title");
 		return dao.getBookByTitle(title);
 	}
 
 	@Override
 	public List<Book> searchBooksByAuthor(String author) {
+		System.out.println("Search by author");
 		return dao.getBookByAuthor(author);
+	}
+
+	@Override
+	public List<Book> searchBooksByFuzzyTitle(String title) {
+		System.out.println("Search by fuzzy title");
+		return dao.listBooksByFuzzyTitle(title);
 	}
 
 }

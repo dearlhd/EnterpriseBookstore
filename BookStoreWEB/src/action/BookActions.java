@@ -40,12 +40,20 @@ public class BookActions extends ActionSupport{
 	}
 	
 	public void queryBook(BookManager bm) {
+		System.out.println("queryBook");
 		List<Book> books = new ArrayList<Book>();
 		if (actions.equals("queryByTitle")) {
+			System.out.println("by title");
 			books = bm.searchBooksByTitle(book.getTitle());
+			books = bm.searchBooksByFuzzyTitle(book.getTitle());
+			System.out.println(books.size());
 		}
 		else if (actions.equals("queryByAuthor")) {
+			System.out.println("by author");
 			books = bm.searchBooksByAuthor(book.getAuthor());
+		}
+		else {
+			System.out.println("actions: "+actions);
 		}
 		
 		for (int i = 0; i < books.size(); i++) {
@@ -55,7 +63,7 @@ public class BookActions extends ActionSupport{
 	}
 	
 	public String execute() throws Exception{
-		System.out.println("In action");
+		System.out.println("In book action");
 		final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
 		jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 		final Context context = new InitialContext(jndiProperties);
