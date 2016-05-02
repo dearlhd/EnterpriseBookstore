@@ -8,44 +8,37 @@
 	
 	<include file="struts-default.xml" />
 	
-	<package name="login" extends="struts-default, json-default">
+	<package name="BookStore" extends="struts-default, json-default">
 		<action name="loginAction" class="action.UserActions">
 			<result type = "json">
 				<param name = "root">ja</param>
 			</result>
 		</action>
-	</package>
 	
-	<package name="accountActions" extends="struts-default, json-default">
 		<action name="accountActions" class="action.UserActions">
 			<result type = "json">
 				<param name = "root">ja</param>
 			</result>
 		</action>
-	</package>
 	
-	<package name="bookActions" extends="struts-default, json-default">
 		<action name="bookActions" class="action.BookActions">
 			<result type = "json">
 				<param name = "root">ja</param>
 			</result>
 		</action>
-	</package>
 	
-	<package name="cartActions" extends="struts-default, json-default">
 		<action name="cartActions" class="action.CartActions">
 			<result type = "json">
 				<param name = "root">ja</param>
 			</result>
 		</action>
-	</package>
 	
-	<package name="orderActions" extends="struts-default, json-default">
 		<action name="orderActions" class="action.OrderActions">
 			<result type = "json">
 				<param name = "root">ja</param>
 			</result>
 		</action>
+		
 	</package>
 		
 </struts>

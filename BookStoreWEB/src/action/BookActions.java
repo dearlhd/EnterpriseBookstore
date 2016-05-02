@@ -52,14 +52,15 @@ public class BookActions extends ActionSupport{
 			System.out.println("by author");
 			books = bm.searchBooksByAuthor(book.getAuthor());
 		}
-		else {
-			System.out.println("actions: "+actions);
-		}
 		
 		for (int i = 0; i < books.size(); i++) {
 			ja = JSONArray.fromObject(books).toString();
 		}
 		System.out.println("Books: "+ja);
+	}
+	
+	void addBook(BookManager bm) {
+		bm.addBook(book);
 	}
 	
 	public String execute() throws Exception{
@@ -77,6 +78,9 @@ public class BookActions extends ActionSupport{
 	    	if (actions.equals("queryByTitle") || actions.equals("queryByAuthor")) {
 	    		queryBook(bm);
 		    }
+	    	else if (actions.equals("addBook")) {
+	    		addBook(bm);
+	    	}
 	    } catch (NamingException e) {
 	    	 // TODO Auto-generated catch block
 	    	e.printStackTrace();

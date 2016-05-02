@@ -1,5 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import = "entityBean.User" %>
+<%
+	User user = new User();
+	user = (User) session.getAttribute("user");
+	String username = user.getUsername();
+	if (user == null) {
+		 response.sendRedirect(request.getContextPath()+"/Pages/GeneralPages/Login.jsp");
+	}
+	else if (user.getAdm() == 1) {
+		response.sendRedirect(request.getContextPath()+"/Pages/ManagerPages/addBook.jsp");
+	}
+%>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -30,8 +42,8 @@
             </div>
 
             <div class="header-right">
-        	    <a href="login.html" class="btn btn-success">Shopping Cart</a>
-                <a href="login.html" class="btn btn-danger">Logout</a>
+        	    <a class="btn btn-success" onclick="showShoppingCart()">Shopping Cart</a>
+                <a href="<%=request.getContextPath()%>/Pages/GeneralPages/logout.jsp" class="btn btn-danger">Logout</a>
             </div>
         </nav>
         <!-- /. NAV TOP  -->
@@ -71,7 +83,6 @@
                         <h1 class="page-subhead-line" style="color:red">Tips:I'll change the appearance of this page later,
                         				so when you search order by time, you should input legal form such as 2016 or 2106-5 or 2016-5-1</h1>
                     </div>
-                    
                 </div>
                 <!-- /. ROW  -->
                 
@@ -150,6 +161,8 @@
     <script src="<%=request.getContextPath()%>/Pages/js/custom.js"></script>
 
 	<script src="<%=request.getContextPath()%>/Pages/js/sweet-alert.min.js"></script>
+	
+	<script src="<%=request.getContextPath()%>/Pages/js/shoppingCart.js"></script>
 </body>
 <script type="text/javascript">
 function searchOrders() {

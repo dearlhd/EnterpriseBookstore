@@ -1,5 +1,6 @@
 package ejb.bean;
 
+import java.util.Calendar;
 import java.util.List;
 
 import dao.ejb.remote.BookDaoRemote;
@@ -27,6 +28,16 @@ public class BookBean implements BookManager {
 
 	@Override
 	public void addBook(Book book) {
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int mouth = c.get(Calendar.MONTH) + 1;
+		int day = c.get(Calendar.DATE);
+		
+		String bidStr =  String.valueOf(c.get(Calendar.HOUR_OF_DAY)) + String.valueOf(c.get(Calendar.MINUTE))
+						+ String.valueOf(c.get(Calendar.SECOND));
+		
+		book.setBookId(Integer.parseInt(bidStr));
+		
 		dao.addBookInfo(book);
 		return;
 	}

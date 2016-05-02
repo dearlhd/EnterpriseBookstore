@@ -4,17 +4,20 @@
 <%
 	User user = new User();
 	user = (User) session.getAttribute("user");
-	if (user == null) {
-		 response.sendRedirect(request.getContextPath()+"/GeneralUI/Login.jsp");
-	}
 	String username = user.getUsername();
+	if (user == null) {
+		 response.sendRedirect(request.getContextPath()+"/Pages/GeneralPages/Login.jsp");
+	}
+	else if (user.getAdm() == 1) {
+		response.sendRedirect(request.getContextPath()+"/Pages/ManagerPages/addBook.jsp");
+	}
 %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Char Room</title>
+    <title>Chat Room</title>
 
     <!-- BOOTSTRAP STYLES-->
     <link href="<%=request.getContextPath()%>/Pages/css/bootstrap.css" rel="stylesheet" />
@@ -37,8 +40,8 @@
             </div>
 
             <div class="header-right">
-        	    <a href="login.html" class="btn btn-success">Shopping Cart</a>
-                <a href="login.html" class="btn btn-danger">Logout</a>
+        	    <a class="btn btn-success" onclick="showShoppingCart()">Shopping Cart</a>
+                <a href="<%=request.getContextPath()%>/Pages/GeneralPages/logout.jsp" class="btn btn-danger">Logout</a>
             </div>
         </nav>
         <!-- /. NAV TOP  -->
@@ -92,9 +95,32 @@
 				    	<textarea id="textarea" class="form-control" cols="70" rows="20" readonly="true"></textarea>
 				    	<textarea id="userlist" style="display:none" cols="20" rows="20" readonly="true"></textarea>
 				    </div>
-				    
 		        </div>
 		        <!-- /. ROW  -->
+		        
+		        <div class="container">
+		            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			             aria-labelledby="myModalLabel" aria-hidden="true">
+			            <div class="modal-dialog">
+			                <div class="modal-content">
+			                    <div class="modal-header">
+			                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+			                        <h4 class="modal-title" id="myModalLabel">Shopping Cart</h4>
+			                    </div>
+			                    <div class="modal-body" id="modalContent">
+			                        <table class="table table-condensed" id="showCartTable">
+		                
+									</table>
+			                    </div>
+			                    <div class="modal-footer" id="modal-footer">
+			                    	<button type="button" class="btn btn-info" onclick="commitToOrder()">Commit To Order</button>
+			                    	<button type="button" class="btn btn-danger" onclick="clearCart()">Clear Cart</button>
+									<button type="button" class="btn btn-primary" data-dismiss="modal">close</button>
+			                    </div>
+				        	</div><!-- /.modal-content -->
+				    	</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->';
+		        </div>
             </div>
             <!-- /. PAGE INNER  -->
         </div>
@@ -116,6 +142,7 @@
        <!-- CUSTOM SCRIPTS -->
     <script src="<%=request.getContextPath()%>/Pages/js/custom.js"></script>
     
+    <script src="<%=request.getContextPath()%>/Pages/js/shoppingCart.js"></script>
 </body>
 <script type="text/javascript">
 	var wsocket;

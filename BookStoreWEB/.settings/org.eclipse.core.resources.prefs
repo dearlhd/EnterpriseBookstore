@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
 encoding//WebContent/Pages/GeneralPages/login.jsp=UTF-8
+encoding//WebContent/Pages/ManagerPages/addBook.jsp=UTF-8
 encoding//WebContent/Pages/UserPages/queryBook.jsp=UTF-8
 encoding//WebContent/Pages/UserPages/userOrders.jsp=UTF-8
