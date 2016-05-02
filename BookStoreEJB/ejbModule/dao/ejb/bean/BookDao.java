@@ -56,6 +56,19 @@ public class BookDao implements BookDaoRemote {
 		}
 	}
 	
+
+	@Override
+	public Book getBookById(int bookId) {
+		System.out.println("Dao: get by id: " + bookId);
+		Query query = em.createNativeQuery("select * from Books Where bookId=:bookId");
+		query.setParameter("bookId", bookId);
+		List<Book> blist = getBooksBySql(query);
+		if (blist.size() == 0) {
+			return null;
+		}
+		return blist.get(0);
+	}
+	
 	@Override
 	public List<Book> getBookByTitle(String title) {
 		Query query = em.createNativeQuery("select * from Books Where title=:title");
@@ -90,7 +103,5 @@ public class BookDao implements BookDaoRemote {
 		em.flush();
 		return newbook;
 	}
-
-	
 
 }

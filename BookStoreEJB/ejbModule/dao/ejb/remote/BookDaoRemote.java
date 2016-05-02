@@ -8,6 +8,8 @@ import entityBean.Book;
 @Remote
 public interface BookDaoRemote {
 	public void addBookInfo(Book book);
+	
+	public Book getBookById (int bookId);
 
 	public List<Book> getBookByTitle(String title);
 	

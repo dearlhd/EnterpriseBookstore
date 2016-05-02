@@ -73,7 +73,7 @@
                 <!-- /. ROW  -->
                 
                 <div class="row">
-		            <div class="col-lg-6 col-lg-offset-3">
+		            <div class="col-lg-8 col-lg-offset-3">
 		                <div class="input-group" style="width: 460px">
 		                    <input type="text" class="form-control" id="searchWhat">
 		                    <div class="input-group-btn">
@@ -88,6 +88,36 @@
 		            <br><br>
 		        </div>
 		        <!-- /. ROW  -->
+		        
+		        <div class="row">
+		            <div class="col-lg-8 col-lg-offset-2">
+		                <table class="table table-condensed" id="showBooksTable">
+		                
+						</table>
+		            </div><!-- /.col-lg-6 -->
+		            <br><br>
+		        </div>
+		        <!-- /. ROW  -->
+		        
+		        <div class="container">
+		            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			             aria-labelledby="myModalLabel" aria-hidden="true">
+			            <div class="modal-dialog">
+			                <div class="modal-content">
+			                    <div class="modal-header">
+			                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+			                        <h4 class="modal-title" id="myModalLabel">Shopping Cart</h4>
+			                    </div>
+			                    <div class="modal-body" id="modalContent">
+			                        
+			                    </div>
+				                    <div class="modal-footer" id="modal-footer">
+				
+				                    </div>
+				        	</div><!-- /.modal-content -->
+				    	</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->';
+		        </div>
 
             </div>
             <!-- /. PAGE INNER  -->
@@ -134,10 +164,51 @@
   				function(data){
   					var msg = eval("("+data+")");
   					console.log(msg);
-  					
+  					showBooksInfo(msg);
 				}, 'json');
 		
+	}
+	
+	function showBooksInfo(books) {
+		$("#showBooksTable").hide();
+		var content = "<thead>\
+					      <tr>\
+					        <th>Title</th>\
+					        <th>Author</th>\
+					        <th>Price</th>\
+					        <th>Count</th>\
+					        <th>Add to cart</th>\
+					     </tr>\
+					  </thead>";
+					  
+		content += "<tbody>";
+		for (var i = 0; i < books.length; i++) {
+			content += "<tr>";
+			content += "<td>" + books[i].title + "</td>";
+			content += "<td>" + books[i].author + "</td>";
+			content += "<td>" + books[i].price + "</td>";
+			content += "<td>" + books[i].count + "</td>";
+			content += '<td> <button type="button" class="btn btn-info" onclick="addToCart('+books[i].bookId+')">\
+							Add to cart</button> </td>';
+		}
+		content += "</tbody>";
+		$("#showBooksTable").html(content);
+		$("#showBooksTable").show('slow');
+	}
+	
+	function addToCart(bookId) {
+		var cartInfo = {
+				"book.bookId" : bookId,
+				"actions" : "addBook"
+		}
+		$.post("cartActions", cartInfo,
+  				function(data){
+  					var msg = eval("("+data+")");
+  					console.log(msg);
+  					$("#myModal").modal();
+				}, 'json');
 	}
 </script>
 
 </html>
+

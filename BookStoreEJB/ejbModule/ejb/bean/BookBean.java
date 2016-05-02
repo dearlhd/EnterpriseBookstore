@@ -59,4 +59,10 @@ public class BookBean implements BookManager {
 		return dao.listBooksByFuzzyTitle(title);
 	}
 
+	@Override
+	public Book getBookById(int bookId) {
+		System.out.println("Search by id");
+		return dao.getBookById(bookId);
+	}
+
 }

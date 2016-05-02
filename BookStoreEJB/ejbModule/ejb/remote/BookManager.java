@@ -11,6 +11,9 @@ public interface BookManager {
 	public void addBook(Book book);
 	public void deleteBook(Book book);
 	public Book updateBookInfo(Book book);
+	
+	public Book getBookById (int bookId);
+	
 	public List<Book> searchBooksByTitle(String title);
 	public List<Book> searchBooksByAuthor(String author);
 	
