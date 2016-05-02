@@ -183,7 +183,7 @@
 		timestamp += nowDate.getMinutes() + ":";
 		timestamp += nowDate.getSeconds();
 		
-		var msg = "<%=username%>: "+inputVal + "			" + timestamp;
+		var msg = "<%=username%> "+ timestamp +"\n  " + inputVal;
 		console.log(msg);
 		
 		wsocket.send(msg);
@@ -192,7 +192,8 @@
 	
 	function onMessage (evt){
 		$("#textarea").append(evt.data+"\n");
-		document.getElementById("textarea").scrollTop;
+		var ta = document.getElementById("textarea"); 
+		ta.scrollTop = ta.scrollHeight;
 	}
 	window.addEventListener("load", connect, false);
 </script>

@@ -128,19 +128,11 @@ public class CartBean implements CartManager {
 				
 				ObjectMessage om = session.createObjectMessage(order);
 				sender.send(om);
+				
+				
+				
 			}
 			clear();
-//            Order order = new Order();
-//            order.setOrderId(1);
-//            order.setBookTitle("book");
-//            order.setBuyer("luo");
-//            order.setPrice(11.5);
-//            order.setOrderTime("2015-05-01");
-//            ObjectMessage om = session.createObjectMessage(order);
-//            System.out.println("before send " + commitCnt);
-//            commitCnt++;
-//            sender.send(om);
-//            //producer.send(om);
             cnn.close();
             session.close();
             

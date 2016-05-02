@@ -27,7 +27,7 @@ public class ChatRoomBean implements ChatRoomManager {
     
     Queue<String> chatRecord;
     
-    final int SIZE = 100;
+    final int SIZE = 10;
 
     void initChatRecord () {
     	chatRecord = new LinkedList<String>();
@@ -56,7 +56,6 @@ public class ChatRoomBean implements ChatRoomManager {
 			return null;
 		}
 		else {
-			System.out.println("ÓÐ¶«Î÷");
 			String[] strs = {};
 			strs = chatRecord.toArray(strs);
 			List<String> ls = new ArrayList<String>();
