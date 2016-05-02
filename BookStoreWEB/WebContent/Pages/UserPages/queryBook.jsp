@@ -67,7 +67,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-head-line">Query Books</h1>
-                        <h1 class="page-subhead-line">You can query books by different way </h1>
+                        <h1 class="page-subhead-line">You can query books by different way.(Fuzzy search is supported.) </h1>
 
                     </div>
                 </div>

@@ -22,7 +22,6 @@
     <link href="<%=request.getContextPath()%>/Pages/css/basic.css" rel="stylesheet" />
     <!--CUSTOM MAIN STYLES-->
     <link href="<%=request.getContextPath()%>/Pages/css/custom.css" rel="stylesheet" />
-    <!-- GOOGLE FONTS-->
 </head>
 <body>
     <div id="wrapper">

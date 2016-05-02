@@ -12,4 +12,6 @@ public interface OrderDaoRemote {
 	public List<Order> checkOrderByBuyer(User user);
 	public List<Order> checkOrderByBook (Book book);
 	public List<Order> checkOrderByTime (String time, int flag);
+	
+	public List<Order> checkOrderByUserAndTime(String username, String time, int flag);
 }

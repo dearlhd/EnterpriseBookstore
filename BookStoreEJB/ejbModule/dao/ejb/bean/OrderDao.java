@@ -50,7 +50,7 @@ public class OrderDao implements OrderDaoRemote {
 				order.setBuyer(obj[2].toString());
 				order.setPrice(Double.parseDouble(obj[3].toString()));
 				order.setOrderTime(obj[4].toString());
-				
+				order.setCount(Integer.parseInt(obj[5].toString()));
 				orders.add(order);
 			}
 			return orders;
@@ -90,6 +90,24 @@ public class OrderDao implements OrderDaoRemote {
 			return checkOrderBySql(query);
 		}
 		return null;
+	}
+
+	@Override
+	public List<Order> checkOrderByUserAndTime(String username, String time, int flag) {
+		//°´Äê      by year
+				if (flag == 1 || flag == 2) {
+					Query query = em.createNativeQuery("select * from Orders Where buyer = :username and orderTime like :time");
+					query.setParameter("username", username);
+					query.setParameter("time", time+"-%");
+					return checkOrderBySql(query);
+				}
+				else if (flag == 3) {
+					Query query = em.createNativeQuery("select * from Orders Where buyer = :username and orderTime = :time");
+					query.setParameter("username", username);
+					query.setParameter("time", time);
+					return checkOrderBySql(query);
+				}
+				return null;
 	}
 
 }

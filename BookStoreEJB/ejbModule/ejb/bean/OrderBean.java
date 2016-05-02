@@ -49,4 +49,10 @@ public class OrderBean implements OrderManager {
 		return dao.checkOrderByTime(time, flag);
 	}
 
+	@Override
+	public List<Order> getOrderByUserAndTime(User user, String time, int flag) {
+		// TODO Auto-generated method stub
+		return dao.checkOrderByUserAndTime(user.getUsername(), time, flag);
+	}
+
 }

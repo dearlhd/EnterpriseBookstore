@@ -12,4 +12,5 @@ public interface OrderManager {
 	public List<Order> getOrderByBuyer(User user);
 	public List<Order> getOrderByBook(Book book);
 	public List<Order> getOrderByTime(String time, int flag);
+	public List<Order> getOrderByUserAndTime (User user, String time, int flag);
 }
