@@ -170,9 +170,23 @@
 			return;
 		}
 		
-		if (inputVal[inputVal.length-1] == '\n' || inputVal[inputVal.length-1] == '\r')
+		if (inputVal[inputVal.length-1] == '\n' || inputVal[inputVal.length-1] == '\r') {
 			inputVal = inputVal.substring(0, inputVal.length-1);
-		wsocket.send("<%=username%>: "+inputVal);
+		}
+		
+		var nowDate = new Date();
+		var timestamp = "";
+		timestamp += nowDate.getFullYear() + "-";
+		timestamp += (nowDate.getMonth()+1) + "-";
+		timestamp += nowDate.getDate() + " ";
+		timestamp += nowDate.getHours() + ":";
+		timestamp += nowDate.getMinutes() + ":";
+		timestamp += nowDate.getSeconds();
+		
+		var msg = "<%=username%>: "+inputVal + "			" + timestamp;
+		console.log(msg);
+		
+		wsocket.send(msg);
 		document.getElementById("chatInput").value = null;
 	}
 	
