@@ -37,6 +37,7 @@ public class CartBean implements CartManager {
 
     @Override
     public void initialize(User u) {
+    	System.out.println("Initializing cart info in cartManager");
         user = u;
         contents = new ArrayList<Book>();
         cnt = new ArrayList<Integer>();
@@ -48,10 +49,6 @@ public class CartBean implements CartManager {
     		System.out.println("Without initialization");
     		return;
     	}
-    	else {
-    		System.out.println("Initialized");
-    		System.out.println(contents.size());
-    	}
     	for (int i = 0; i < contents.size(); i++) {
     		System.out.println("i: "+i);
     		if (contents.get(i).getBookId() == book.getBookId()) {
@@ -61,17 +58,22 @@ public class CartBean implements CartManager {
     	}
         contents.add(book);
         cnt.add(1);
+        System.out.println("In cartManager! function addBook: contents.size="+contents.size());
     }
 
     @Override
-    public void removeBook(Book book) {
+    public boolean removeBook(Book book) {
+    	System.out.println("In cartManager! removeBook: to remove bookId="+book.getBookId());
     	for (int i = 0; i < contents.size(); i++) {
+    		System.out.println("In cartManager! removeBook: for bookId="+book.getBookId());
     		if (contents.get(i).getBookId() == book.getBookId()) {
+    			System.out.println("In cartManager! removeBook: book was found!");
     			contents.remove(i);
     			cnt.remove(i);
-    			break;
+    			return true;
     		}
     	}
+    	return false;
     }
 
     @Override

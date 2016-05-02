@@ -13,7 +13,7 @@ public interface CartManager {
 
     public void addBook(Book book);
 
-    public void removeBook(Book book);
+    public boolean removeBook(Book book);
 
     public List<Book> getContents();
     

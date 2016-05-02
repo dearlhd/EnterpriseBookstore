@@ -13,7 +13,8 @@
     <link href="<%=request.getContextPath()%>/Pages/css/basic.css" rel="stylesheet" />
     <!--CUSTOM MAIN STYLES-->
     <link href="<%=request.getContextPath()%>/Pages/css/custom.css" rel="stylesheet" />
-    <!-- GOOGLE FONTS-->
+        
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Pages/css/sweet-alert.css">
 </head>
 <body>
     <div id="wrapper">
@@ -29,7 +30,7 @@
             </div>
 
             <div class="header-right">
-        	    <a href="login.html" class="btn btn-success">Shopping Cart</a>
+        	    <a class="btn btn-success" onclick="showShoppingCart()">Shopping Cart</a>
                 <a href="login.html" class="btn btn-danger">Logout</a>
             </div>
         </nav>
@@ -109,11 +110,13 @@
 			                        <h4 class="modal-title" id="myModalLabel">Shopping Cart</h4>
 			                    </div>
 			                    <div class="modal-body" id="modalContent">
-			                        
+			                        <table class="table table-condensed" id="showCartTable">
+		                
+									</table>
 			                    </div>
-				                    <div class="modal-footer" id="modal-footer">
-				
-				                    </div>
+			                    <div class="modal-footer" id="modal-footer">
+			
+			                    </div>
 				        	</div><!-- /.modal-content -->
 				    	</div><!-- /.modal-dialog -->
 					</div><!-- /.modal -->';
@@ -140,6 +143,7 @@
        <!-- CUSTOM SCRIPTS -->
     <script src="<%=request.getContextPath()%>/Pages/js/custom.js"></script>
     
+    <script src="<%=request.getContextPath()%>/Pages/js/sweet-alert.min.js"></script>
 </body>
 <script type="text/javascript">
 	function searchBooks() {
@@ -190,6 +194,7 @@
 			content += "<td>" + books[i].count + "</td>";
 			content += '<td> <button type="button" class="btn btn-info" onclick="addToCart('+books[i].bookId+')">\
 							Add to cart</button> </td>';
+			content += "</tr>"
 		}
 		content += "</tbody>";
 		$("#showBooksTable").html(content);
@@ -205,7 +210,56 @@
   				function(data){
   					var msg = eval("("+data+")");
   					console.log(msg);
+  					sweetAlert("", "Add to cart successfully!", "success");
+				}, 'json');
+	}
+</script>
+
+<script type="text/javascript">
+	function showShoppingCart() {
+		var content = "\
+			<thead>\
+		      <tr>\
+		        <th>Title</th>\
+		        <th>Author</th>\
+		        <th>Price</th>\
+		        <th>Count</th>\
+		      </tr>\
+		  	</thead>";
+		content += "<tbody>";
+		  
+		$.post("cartActions", {"actions":"getCart"},
+  				function(data){
+  					var msg = eval("("+data+")");
+  					console.log(msg);
+  					
+  					for (var i = 0; i < msg.length; i++) {
+  						content += "<tr>";
+  						content += "<td>" + msg[i].title + "</td>";
+  						content += "<td>" + msg[i].author + "</td>";
+  						content += "<td>" + msg[i].price + "</td>";
+  						content += "<td>" + msg[i].countInCart + "</td>";
+  						content += '<td> <button type="button" class="btn btn-danger" onclick="removeFromCart('+msg[i].bookId+')">\
+								Remove</button> </td>';
+  					}
+  					content += "</tbody>";
+  					$("#showCartTable").html(content);
   					$("#myModal").modal();
+  					
+				}, 'json');
+	}
+	
+	function removeFromCart(bookId) {
+		var cartInfo = {
+				"book.bookId" : bookId,
+				"actions" : "removeBook"
+		}
+		$.post("cartActions", cartInfo,
+  				function(data){
+  					var msg = eval("("+data+")");
+  					console.log(msg);
+  					sweetAlert("", "Removed!", "success");
+  					showShoppingCart()
 				}, 'json');
 	}
 </script>

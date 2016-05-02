@@ -47,11 +47,11 @@ public class CartActions extends ActionSupport{
 	}
 	
 	void initCartManager () throws NamingException {
-		User user = new User ();
-		user.setAge(1);
-		user.setUsername("luo");
+		System.out.println("Initializing cart manager");
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		User user = (User)session.getAttribute("user");
 		
-		System.out.println("Initializing");
+		System.out.println("Initializing cart manager");
 		
 		final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
 		jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
@@ -63,7 +63,7 @@ public class CartActions extends ActionSupport{
 	    final String viewClassName = CartManager.class.getName();        //这里为你的接口名称
 	    CartManager cartManager = (CartManager) context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + viewClassName + "?stateful");
 	    cartManager.initialize(user);
-	    HttpSession session = ServletActionContext.getRequest().getSession();
+	    
 	    session.setAttribute("cartManager", cartManager);
 	}
 	
@@ -74,14 +74,23 @@ public class CartActions extends ActionSupport{
 		BookManager bm = (BookManager) context.lookup("ejb:/BookStoreEJB//" + BookBean.class.getSimpleName() + "!" + BookManager.class.getName());
 		
 		book = bm.getBookById(book.getBookId());
-		System.out.println("Before add");
-		
-		System.out.println(book.getTitle());
-		System.out.println(book.getAuthor());
 		
 		cm.addBook(book);
+		getCart(cm);
+	}
+	
+	void removeBook (CartManager cm) throws NamingException {
+		cm.removeBook(book);
+		getCart(cm);
+	}
+	
+	void getCart(CartManager cm) {
+		System.out.println("In function: getCart");
 		List<Book> lb = cm.getContents();
 		List<Integer> li = cm.getCnt();
+		
+		System.out.println("lb size: " + lb.size() + "     li size: " + li.size());
+		
 		JSONArray jarray = new JSONArray();
 		for (int i = 0; i < lb.size(); i++) {
 			JSONObject jo1 = JSONObject.fromObject(lb.get(i));
@@ -89,17 +98,16 @@ public class CartActions extends ActionSupport{
 			jarray.add(jo1);
 		}
 		
+		System.out.println("ja size: " + jarray.size());
+		
 		ja = jarray.toString();
 		
-		System.out.println("Size: "+lb.size());
-		System.out.println(li.get(0));
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		session.setAttribute("cartManager", cm);
 	}
 	
 	public String execute() throws Exception{
-		System.out.println("In cart actions");
-		book.setBookId(1);
+		System.out.println("In cart actions: "+actions);
 		try {
 			HttpSession session = ServletActionContext.getRequest().getSession();
 			CartManager cm = (CartManager)session.getAttribute("cartManager");
@@ -112,6 +120,13 @@ public class CartActions extends ActionSupport{
 			if (actions.equals("addBook")) {
 				addBook(cm);
 			}
+			else if (actions.equals("getCart")){
+				getCart(cm);
+			}
+			else if (actions.equals("removeBook")) {
+				removeBook(cm);
+			}
+			
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
