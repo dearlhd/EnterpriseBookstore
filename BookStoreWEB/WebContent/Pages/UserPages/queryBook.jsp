@@ -115,7 +115,9 @@
 									</table>
 			                    </div>
 			                    <div class="modal-footer" id="modal-footer">
-			
+			                    	<button type="button" class="btn btn-info" onclick="commitToOrder()">Commit To Order</button>
+			                    	<button type="button" class="btn btn-danger" onclick="clearCart()">Clear Cart</button>
+									<button type="button" class="btn btn-primary" data-dismiss="modal">close</button>
 			                    </div>
 				        	</div><!-- /.modal-content -->
 				    	</div><!-- /.modal-dialog -->
@@ -260,6 +262,22 @@
   					console.log(msg);
   					sweetAlert("", "Removed!", "success");
   					showShoppingCart()
+				}, 'json');
+	}
+	
+	function clearCart() {
+		$.post("cartActions", {"actions":"clearCart"},
+  				function(data){
+					sweetAlert("", "Cleared!", "success");
+					showShoppingCart()
+				}, 'json');
+	}
+	
+	function commitToOrder() {
+		$.post("cartActions", {"actions":"commitToOrder"},
+  				function(data){
+					sweetAlert("", "Order finished!", "success");
+					showShoppingCart()
 				}, 'json');
 	}
 </script>

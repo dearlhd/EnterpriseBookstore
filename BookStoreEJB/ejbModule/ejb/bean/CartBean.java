@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Properties;
 
 import ejb.remote.CartManager;
 import entityBean.Book;
 import entityBean.Order;
 import entityBean.User;
 
-import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.naming.*;
 import javax.jms.*;
@@ -86,11 +84,13 @@ public class CartBean implements CartManager {
         return cnt;
     }
 
-    @Remove()
+    
     @Override
     public void clear() {
         contents = null;
         cnt = null;
+        contents = new ArrayList<Book>();
+        cnt = new ArrayList<Integer>();
     }
 
     static int commitCnt = 0;
@@ -115,21 +115,20 @@ public class CartBean implements CartManager {
 				order.setPrice(contents.get(i).getPrice());
 				Calendar c = Calendar.getInstance();
 				int year = c.get(Calendar.YEAR);
-				int mouth = c.get(Calendar.MONTH);
+				int mouth = c.get(Calendar.MONTH) + 1;
 				int day = c.get(Calendar.DATE);
 				System.out.println(year + " " + mouth + " " + day);
 				String orderDate = String.valueOf(year) + "-" + String.valueOf(mouth) + "-" + String.valueOf(day);
 				order.setOrderTime(orderDate);
 				
-				String idStr = String.valueOf(year) + String.valueOf(mouth) + String.valueOf(day) 
-								+ String.valueOf(c.get(Calendar.HOUR_OF_DAY)) + String.valueOf(c.get(Calendar.MINUTE))
-								+ String.valueOf(c.get(Calendar.SECOND)) + String.valueOf(user.getUserId());
+				String idStr =  String.valueOf(c.get(Calendar.HOUR_OF_DAY)) + String.valueOf(c.get(Calendar.MINUTE))
+								+ String.valueOf(c.get(Calendar.SECOND)) + String.valueOf(user.getUserId()) + String.valueOf(i);
 				order.setOrderId(Integer.parseInt(idStr));
 				
 				ObjectMessage om = session.createObjectMessage(order);
 				sender.send(om);
 			}
-			
+			clear();
 //            Order order = new Order();
 //            order.setOrderId(1);
 //            order.setBookTitle("book");

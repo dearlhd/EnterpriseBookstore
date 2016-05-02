@@ -81,7 +81,9 @@ public class CartActions extends ActionSupport{
 	
 	void removeBook (CartManager cm) throws NamingException {
 		cm.removeBook(book);
-		getCart(cm);
+
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		session.setAttribute("cartManager", cm);
 	}
 	
 	void getCart(CartManager cm) {
@@ -98,10 +100,20 @@ public class CartActions extends ActionSupport{
 			jarray.add(jo1);
 		}
 		
-		System.out.println("ja size: " + jarray.size());
-		
 		ja = jarray.toString();
 		
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		session.setAttribute("cartManager", cm);
+	}
+	
+	void clearCart(CartManager cm) {
+		cm.clear();
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		session.setAttribute("cartManager", cm);
+	}
+	
+	void commitToOrder(CartManager cm) {
+		cm.commitToOrder();
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		session.setAttribute("cartManager", cm);
 	}
@@ -125,6 +137,12 @@ public class CartActions extends ActionSupport{
 			}
 			else if (actions.equals("removeBook")) {
 				removeBook(cm);
+			}
+			else if (actions.equals("clearCart")) {
+				clearCart(cm);
+			}
+			else if (actions.equals("commitToOrder")) {
+				commitToOrder(cm);
 			}
 			
 		} catch (NamingException e) {
