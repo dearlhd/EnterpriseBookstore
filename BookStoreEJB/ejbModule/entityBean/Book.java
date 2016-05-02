@@ -12,18 +12,18 @@ import javax.persistence.Table;
 public class Book implements Serializable{
 
 	@Id
-	private int bookId;
+	private long bookId;
 	private String title;
 	private String author;
 	private double price;
 	private int count;
 
 	
-	public int getBookId() {
+	public long getBookId() {
 		return bookId;
 	}
 	
-	public void setBookId(int bookId) {
+	public void setBookId(long bookId) {
 		this.bookId = bookId;
 	}
 	

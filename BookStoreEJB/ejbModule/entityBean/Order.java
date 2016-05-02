@@ -14,7 +14,7 @@ public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int orderId;
+	private long orderId;
 	
 	private String bookTitle;
 	private String buyer;
@@ -28,10 +28,10 @@ public class Order implements Serializable {
 	public void setCount(int count) {
 		this.count = count;
 	}
-	public int getOrderId() {
+	public long getOrderId() {
 		return orderId;
 	}
-	public void setOrderId(int orderId) {
+	public void setOrderId(long orderId) {
 		this.orderId = orderId;
 	}
 	public String getBookTitle() {

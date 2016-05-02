@@ -69,6 +69,7 @@ public class UserActions extends ActionSupport{
     		JSONObject jo = new JSONObject();
     		try {
 				jo.append("msg", "success");
+				jo.append("role", user.getAdm());
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -94,7 +95,6 @@ public class UserActions extends ActionSupport{
 	    	UserManager um = (UserManager) context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + viewClassName);
 	    	if (actions.equals("login") || actions.equals("register")) {
 			    login (um);
-			    System.out.println("login returned");
 		    }
 	    } catch (NamingException e) {
 	    	 // TODO Auto-generated catch block

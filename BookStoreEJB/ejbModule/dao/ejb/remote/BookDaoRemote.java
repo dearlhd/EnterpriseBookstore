@@ -9,7 +9,7 @@ import entityBean.Book;
 public interface BookDaoRemote {
 	public void addBookInfo(Book book);
 	
-	public Book getBookById (int bookId);
+	public Book getBookById (long bookId);
 
 	public List<Book> getBookByTitle(String title);
 	

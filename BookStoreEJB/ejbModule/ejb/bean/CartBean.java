@@ -124,7 +124,7 @@ public class CartBean implements CartManager {
 				
 				String idStr =  String.valueOf(c.get(Calendar.HOUR_OF_DAY)) + String.valueOf(c.get(Calendar.MINUTE))
 								+ String.valueOf(c.get(Calendar.SECOND)) + String.valueOf(user.getUserId()) + String.valueOf(i);
-				order.setOrderId(Integer.parseInt(idStr));
+				order.setOrderId(Long.parseLong(idStr));
 				
 				ObjectMessage om = session.createObjectMessage(order);
 				sender.send(om);

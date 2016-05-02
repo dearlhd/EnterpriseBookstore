@@ -136,7 +136,13 @@
   				function(data){
   					var msg = eval("("+data+")");
   					if (msg.msg == "success") {
-  						window.location.href="<%=request.getContextPath()%>/Pages/UserPages/queryBook.jsp";
+  						if (msg.role == 0) {
+  							window.location.href="<%=request.getContextPath()%>/Pages/UserPages/queryBook.jsp";
+  						}
+  						else if (msg.role == 1) {
+  							window.location.href="<%=request.getContextPath()%>/Pages/ManagerPages/addBook.jsp";
+  						}
+  						
   					}
   					else {
   						sweetAlert("", "This username is exsited!", "error");

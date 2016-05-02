@@ -45,7 +45,7 @@ public class OrderDao implements OrderDaoRemote {
 			for (int i = 0; i < orderlist.size(); i++) {
 				Object []obj = (Object[]) orderlist.get(i);
 				Order order = new Order();
-				order.setOrderId(Integer.parseInt(obj[0].toString()));
+				order.setOrderId(Long.parseLong(obj[0].toString()));
 				order.setBookTitle(obj[1].toString());
 				order.setBuyer(obj[2].toString());
 				order.setPrice(Double.parseDouble(obj[3].toString()));

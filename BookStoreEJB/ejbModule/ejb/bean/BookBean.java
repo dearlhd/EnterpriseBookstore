@@ -36,7 +36,7 @@ public class BookBean implements BookManager {
 		String bidStr =  String.valueOf(c.get(Calendar.HOUR_OF_DAY)) + String.valueOf(c.get(Calendar.MINUTE))
 						+ String.valueOf(c.get(Calendar.SECOND));
 		
-		book.setBookId(Integer.parseInt(bidStr));
+		book.setBookId(Long.parseLong(bidStr));
 		
 		dao.addBookInfo(book);
 		return;
@@ -71,7 +71,7 @@ public class BookBean implements BookManager {
 	}
 
 	@Override
-	public Book getBookById(int bookId) {
+	public Book getBookById(long bookId) {
 		System.out.println("Search by id");
 		return dao.getBookById(bookId);
 	}

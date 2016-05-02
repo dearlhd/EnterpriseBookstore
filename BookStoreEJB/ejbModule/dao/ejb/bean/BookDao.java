@@ -44,7 +44,7 @@ public class BookDao implements BookDaoRemote {
 			for (int i = 0; i < booklist.size(); i++) {
 				Object []obj = (Object[]) booklist.get(i);
 				Book book = new Book();
-				book.setBookId(Integer.parseInt(obj[0].toString()));
+				book.setBookId(Long.parseLong(obj[0].toString()));
 				book.setTitle(obj[1].toString());
 				book.setAuthor(obj[2].toString());
 				book.setPrice(Double.parseDouble(obj[3].toString()));
@@ -58,7 +58,7 @@ public class BookDao implements BookDaoRemote {
 	
 
 	@Override
-	public Book getBookById(int bookId) {
+	public Book getBookById(long bookId) {
 		System.out.println("Dao: get by id: " + bookId);
 		Query query = em.createNativeQuery("select * from Books Where bookId=:bookId");
 		query.setParameter("bookId", bookId);
