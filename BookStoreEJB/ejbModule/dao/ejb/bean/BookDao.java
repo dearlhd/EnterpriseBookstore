@@ -98,7 +98,6 @@ public class BookDao implements BookDaoRemote {
 
 	@Override
 	public Book updateBookInfo(Book book) {
-		// TODO Auto-generated method stub
 		Book newbook = em.merge(book);
 		em.flush();
 		return newbook;
@@ -106,14 +105,19 @@ public class BookDao implements BookDaoRemote {
 	
 	@Override
 	public void subtractBook(Book book, int cnt) throws Exception {
-		// TODO Auto-generated method stub
+		System.out.println("In bookDao: subtractBook");
 		book = getBookById(book.getBookId());
+		System.out.println("book cnt in db: "+book.getCount());
+		System.out.println("book cnt to sub" + cnt);
 		if (book.getCount() < cnt) {
 			throw new Exception("Count of Book is not enough!");
 		}
 		else {
-			book.setCount(book.getCount() - cnt);
-			updateBookInfo (book);
+			int newCnt = book.getCount() - cnt;
+			book.setCount(newCnt);
+			System.out.println("to merge! title: "+book.getTitle() + " cnt: "+book.getCount() + " author: "+book.getAuthor());
+			em.merge(book);
+			em.flush();
 		}
 	}
 

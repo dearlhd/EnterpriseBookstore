@@ -44,9 +44,9 @@ public class BookActions extends ActionSupport{
 		List<Book> books = new ArrayList<Book>();
 		if (actions.equals("queryByTitle")) {
 			System.out.println("by title");
-			books = bm.searchBooksByTitle(book.getTitle());
+			//books = bm.searchBooksByTitle(book.getTitle());
 			books = bm.searchBooksByFuzzyTitle(book.getTitle());
-			System.out.println(books.size());
+			System.out.println("title: "+books.get(0).getTitle() + " price: "+books.get(0).getPrice());
 		}
 		else if (actions.equals("queryByAuthor")) {
 			System.out.println("by author");

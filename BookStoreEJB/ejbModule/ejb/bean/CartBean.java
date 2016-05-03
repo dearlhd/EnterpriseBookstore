@@ -120,6 +120,7 @@ public class CartBean implements CartManager {
 				System.out.println(year + " " + mouth + " " + day);
 				String orderDate = String.valueOf(year) + "-" + String.valueOf(mouth) + "-" + String.valueOf(day);
 				order.setOrderTime(orderDate);
+				System.out.println("In cartBean: order cnt is "+cnt.get(i));
 				order.setCount(cnt.get(i));
 				order.setBookId(contents.get(i).getBookId());
 				
