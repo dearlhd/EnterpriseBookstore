@@ -16,6 +16,13 @@ public class Order implements Serializable {
 	@Id
 	private long orderId;
 	
+	private long bookId;
+	public long getBookId() {
+		return bookId;
+	}
+	public void setBookId(long bookId) {
+		this.bookId = bookId;
+	}
 	private String bookTitle;
 	private String buyer;
 	private double price;

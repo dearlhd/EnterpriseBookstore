@@ -20,4 +20,6 @@ public interface BookDaoRemote {
 	public void deleteBook(Book book);
 	
 	public Book updateBookInfo(Book book);
+	
+	public void subtractBook(Book book, int cnt) throws Exception;
 }

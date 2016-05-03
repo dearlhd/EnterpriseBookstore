@@ -103,5 +103,18 @@ public class BookDao implements BookDaoRemote {
 		em.flush();
 		return newbook;
 	}
+	
+	@Override
+	public void subtractBook(Book book, int cnt) throws Exception {
+		// TODO Auto-generated method stub
+		book = getBookById(book.getBookId());
+		if (book.getCount() < cnt) {
+			throw new Exception("Count of Book is not enough!");
+		}
+		else {
+			book.setCount(book.getCount() - cnt);
+			updateBookInfo (book);
+		}
+	}
 
 }

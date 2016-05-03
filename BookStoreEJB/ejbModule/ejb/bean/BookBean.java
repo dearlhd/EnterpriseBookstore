@@ -76,4 +76,9 @@ public class BookBean implements BookManager {
 		return dao.getBookById(bookId);
 	}
 
+	@Override
+	public void subtractBookCount(Book book, int count) throws Exception {
+		dao.subtractBook(book, count);
+		return;
+	}
 }

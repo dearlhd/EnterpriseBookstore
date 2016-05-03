@@ -18,4 +18,6 @@ public interface BookManager {
 	public List<Book> searchBooksByAuthor(String author);
 	
 	public List<Book> searchBooksByFuzzyTitle(String title);
+	
+	public void subtractBookCount(Book book, int count) throws Exception;
 }

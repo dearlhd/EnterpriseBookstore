@@ -121,6 +121,7 @@ public class CartBean implements CartManager {
 				String orderDate = String.valueOf(year) + "-" + String.valueOf(mouth) + "-" + String.valueOf(day);
 				order.setOrderTime(orderDate);
 				order.setCount(cnt.get(i));
+				order.setBookId(contents.get(i).getBookId());
 				
 				String idStr =  String.valueOf(c.get(Calendar.HOUR_OF_DAY)) + String.valueOf(c.get(Calendar.MINUTE))
 								+ String.valueOf(c.get(Calendar.SECOND)) + String.valueOf(user.getUserId()) + String.valueOf(i);
@@ -128,8 +129,6 @@ public class CartBean implements CartManager {
 				
 				ObjectMessage om = session.createObjectMessage(order);
 				sender.send(om);
-				
-				
 				
 			}
 			clear();
