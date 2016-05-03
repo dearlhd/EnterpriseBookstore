@@ -3,6 +3,8 @@ package ejb.remote;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.jms.*;
 
 import ejb.remote.OrderManager;
@@ -19,6 +21,7 @@ import entityBean.Order;
 				@ActivationConfigProperty(propertyName = "destination", propertyValue = "jms/orderMessageQueue")
 				
 		})
+@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class OrderMessageListener implements MessageListener {
 
 	@EJB
@@ -36,6 +39,8 @@ public class OrderMessageListener implements MessageListener {
 	/**
      * @see MessageListener#onMessage(Message)
      */
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void onMessage(Message message) {
         try {
         	if (message instanceof ObjectMessage) {
