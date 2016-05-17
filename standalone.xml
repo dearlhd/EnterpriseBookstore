@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
 <server xmlns="urn:jboss:domain:1.2">
+
     <extensions>
         <extension module="org.jboss.as.clustering.infinispan"/>
         <extension module="org.jboss.as.configadmin"/>
@@ -25,7 +26,9 @@
         <extension module="org.jboss.as.web"/>
         <extension module="org.jboss.as.webservices"/>
         <extension module="org.jboss.as.weld"/>
+        <extension module="org.jboss.as.messaging"/>
     </extensions>
+
     <management>
         <security-realms>
             <security-realm name="ManagementRealm">
@@ -48,6 +51,7 @@
             </http-interface>
         </management-interfaces>
     </management>
+
     <profile>
         <subsystem xmlns="urn:jboss:domain:logging:1.1">
             <console-handler name="CONSOLE">
@@ -90,6 +94,22 @@
         <subsystem xmlns="urn:jboss:domain:configadmin:1.0"/>
         <subsystem xmlns="urn:jboss:domain:datasources:1.0">
             <datasources>
+                <datasource jta="false" jndi-name="java:/EnterpriseBookStore" pool-name="EnterpriseBookStore" enabled="true" use-ccm="false">
+                    <connection-url>jdbc:mysql://localhost:3306/enterprise_bookstore</connection-url>
+                    <driver-class>com.mysql.jdbc.Driver</driver-class>
+                    <driver>mysql</driver>
+                    <security>
+                        <user-name>root</user-name>
+                        <password>12345678</password>
+                    </security>
+                    <validation>
+                        <validate-on-match>false</validate-on-match>
+                        <background-validation>false</background-validation>
+                    </validation>
+                    <statement>
+                        <share-prepared-statements>false</share-prepared-statements>
+                    </statement>
+                </datasource>
                 <datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true">
                     <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
                     <driver>h2</driver>
@@ -101,6 +121,10 @@
                 <drivers>
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
+                    </driver>
+                    <driver name="mysql" module="com.mysqldatabase.mysql">
+                        <driver-class>com.mysql.jdbc.Driver</driver-class>
+                        <xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
                     </driver>
                 </drivers>
             </datasources>
@@ -117,6 +141,10 @@
                 <stateful default-access-timeout="5000" cache-ref="simple"/>
                 <singleton default-access-timeout="5000"/>
             </session-bean>
+            <mdb>
+                <resource-adapter-ref resource-adapter-name="hornetq-ra"/>
+                <bean-instance-pool-ref pool-name="mdb-strict-max-pool"/>
+            </mdb>
             <pools>
                 <bean-instance-pools>
                     <strict-max-pool name="slsb-strict-max-pool" max-pool-size="20" instance-acquisition-timeout="5" instance-acquisition-timeout-unit="MINUTES"/>
@@ -186,7 +214,7 @@
             <remoting-connector/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:jpa:1.0">
-            <jpa default-datasource=""/>
+            <jpa default-datasource="java:/EnterpriseBookStore"/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:mail:1.0">
             <mail-session jndi-name="java:jboss/mail/Default">
@@ -196,14 +224,13 @@
         <subsystem xmlns="urn:jboss:domain:naming:1.1"/>
         <subsystem xmlns="urn:jboss:domain:osgi:1.2" activation="lazy">
             <properties>
-                <!-- Specifies the beginning start level of the framework -->
-                <property name="org.osgi.framework.startlevel.beginning">1</property>
+                <property name="org.osgi.framework.startlevel.beginning">
+                    1
+                </property>
             </properties>
             <capabilities>
-                <!-- modules registered with the OSGi layer on startup -->
                 <capability name="javax.servlet.api:v25"/>
                 <capability name="javax.transaction.api"/>
-                <!-- bundles started in startlevel 1 -->
                 <capability name="org.apache.felix.log" startlevel="1"/>
                 <capability name="org.jboss.osgi.logging" startlevel="1"/>
                 <capability name="org.apache.felix.configadmin" startlevel="1"/>
@@ -218,6 +245,15 @@
         <subsystem xmlns="urn:jboss:domain:sar:1.0"/>
         <subsystem xmlns="urn:jboss:domain:security:1.1">
             <security-domains>
+                <security-domain name="EnterpriseBookStoreRealm">
+                    <authentication>
+                        <login-module code="org.jboss.security.auth.spi.DatabaseServerLoginModule" flag="required">
+                            <module-option name="dsJndiName" value="java:/EnterpriseBookStore"/>
+                            <module-option name="principalsQuery" value="select password from users where username = ?"/>
+                            <module-option name="rolesQuery" value="select roleName,'Roles' from users_roles where username=?"/>
+                        </login-module>
+                    </authentication>
+                </security-domain>
                 <security-domain name="other" cache-type="default">
                     <authentication>
                         <login-module code="Remoting" flag="optional">
@@ -254,7 +290,10 @@
             <coordinator-environment default-timeout="300"/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:web:1.1" default-virtual-server="default-host" native="false">
-            <connector name="http" protocol="HTTP/1.1" scheme="http" socket-binding="http"/>
+            <connector name="http" protocol="HTTP/1.1" scheme="http" socket-binding="http" redirect-port="443"/>
+            <connector name="https" protocol="HTTP/1.1" scheme="https" socket-binding="https" secure="true">
+                <ssl name="foo-ssl" key-alias="foo" password="secret" certificate-key-file="../standalone/configuration/foo.keystore" protocol="TLSv1"/>
+            </connector>
             <virtual-server name="default-host" enable-welcome-root="true">
                 <alias name="localhost"/>
                 <alias name="example.com"/>
@@ -271,7 +310,95 @@
             </endpoint-config>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:weld:1.0"/>
+        <subsystem xmlns="urn:jboss:domain:messaging:1.1">
+            <hornetq-server>
+                <persistence-enabled>true</persistence-enabled>
+                <journal-file-size>102400</journal-file-size>
+                <journal-min-files>2</journal-min-files>
+
+                <connectors>
+                    <netty-connector name="netty" socket-binding="messaging"/>
+                    <netty-connector name="netty-throughput" socket-binding="messaging-throughput">
+                        <param key="batch-delay" value="50"/>
+                    </netty-connector>
+                    <in-vm-connector name="in-vm" server-id="0"/>
+                </connectors>
+
+                <acceptors>
+                    <netty-acceptor name="netty" socket-binding="messaging"/>
+                    <netty-acceptor name="netty-throughput" socket-binding="messaging-throughput">
+                        <param key="batch-delay" value="50"/>
+                        <param key="direct-deliver" value="false"/>
+                    </netty-acceptor>
+                    <in-vm-acceptor name="in-vm" server-id="0"/>
+                </acceptors>
+
+                <security-settings>
+                    <security-setting match="#">
+                        <permission type="send" roles="guest"/>
+                        <permission type="consume" roles="guest"/>
+                        <permission type="createNonDurableQueue" roles="guest"/>
+                        <permission type="deleteNonDurableQueue" roles="guest"/>
+                    </security-setting>
+                </security-settings>
+
+                <address-settings>
+                    <address-setting match="#">
+                        <dead-letter-address>jms.queue.DLQ</dead-letter-address>
+                        <expiry-address>jms.queue.ExpiryQueue</expiry-address>
+                        <redelivery-delay>0</redelivery-delay>
+                        <max-size-bytes>10485760</max-size-bytes>
+                        <address-full-policy>BLOCK</address-full-policy>
+                        <message-counter-history-day-limit>10</message-counter-history-day-limit>
+                    </address-setting>
+                </address-settings>
+
+                <jms-connection-factories>
+                    <connection-factory name="InVmConnectionFactory">
+                        <connectors>
+                            <connector-ref connector-name="in-vm"/>
+                        </connectors>
+                        <entries>
+                            <entry name="java:/ConnectionFactory"/>
+                        </entries>
+                    </connection-factory>
+                    <connection-factory name="RemoteConnectionFactory">
+                        <connectors>
+                            <connector-ref connector-name="netty"/>
+                        </connectors>
+                        <entries>
+                            <entry name="RemoteConnectionFactory"/>
+                            <entry name="java:jboss/exported/jms/RemoteConnectionFactory"/>
+                        </entries>
+                    </connection-factory>
+                    <pooled-connection-factory name="hornetq-ra">
+                        <transaction mode="xa"/>
+                        <connectors>
+                            <connector-ref connector-name="in-vm"/>
+                        </connectors>
+                        <entries>
+                            <entry name="java:/JmsXA"/>
+                        </entries>
+                    </pooled-connection-factory>
+                </jms-connection-factories>
+
+                <jms-destinations>
+                    <jms-queue name="testQueue">
+                        <entry name="queue/test"/>
+                        <entry name="java:jboss/exported/jms/queue/test"/>
+                    </jms-queue>
+                    <jms-queue name="bookStoreOrderQueue">
+                        <entry name="jms/orderMessageQueue"/>
+                    </jms-queue>
+                    <jms-topic name="testTopic">
+                        <entry name="topic/test"/>
+                        <entry name="java:jboss/exported/jms/topic/test"/>
+                    </jms-topic>
+                </jms-destinations>
+            </hornetq-server>
+        </subsystem>
     </profile>
+
     <interfaces>
         <interface name="management">
             <inet-address value="${jboss.bind.address.management:127.0.0.1}"/>
@@ -279,15 +406,11 @@
         <interface name="public">
             <inet-address value="${jboss.bind.address:127.0.0.1}"/>
         </interface>
-        <!-- TODO - only show this if the jacorb subsystem is added  -->
         <interface name="unsecure">
-            <!--
-              ~  Used for IIOP sockets in the standard configuration.
-              ~                  To secure JacORB you need to setup SSL 
-              -->
             <inet-address value="${jboss.bind.address.unsecure:127.0.0.1}"/>
         </interface>
     </interfaces>
+
     <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
         <socket-binding name="management-native" interface="management" port="${jboss.management.native.port:9999}"/>
         <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:9990}"/>
@@ -299,8 +422,11 @@
         <socket-binding name="remoting" port="4447"/>
         <socket-binding name="txn-recovery-environment" port="4712"/>
         <socket-binding name="txn-status-manager" port="4713"/>
+        <socket-binding name="messaging" port="5445"/>
+        <socket-binding name="messaging-throughput" port="5455"/>
         <outbound-socket-binding name="mail-smtp">
             <remote-destination host="localhost" port="25"/>
         </outbound-socket-binding>
     </socket-binding-group>
+
 </server>
