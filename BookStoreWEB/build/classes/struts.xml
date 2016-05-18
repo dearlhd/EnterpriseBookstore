@@ -8,7 +8,7 @@
 	
 	<include file="struts-default.xml" />
 	
-	<package name="BookStore" extends="struts-default, json-default">
+	<package name="BookStore" extends="json-default">
 		<action name="loginAction" class="action.UserActions">
 			<result type = "json">
 				<param name = "root">ja</param>
