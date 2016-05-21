@@ -13,6 +13,7 @@
 
 </head>
 <body>
+
 <div class="container">
     <header>
         <span><br/></span>
@@ -23,13 +24,17 @@
             <!-- hidden anchor to stop jump http://www.css3create.com/Astuce-Empecher-le-scroll-avec-l-utilisation-de-target#wrap4  -->
             <a class="hiddenanchor" id="toregister"></a>
             <a class="hiddenanchor" id="tologin"></a>
+            
+            <a href="#" class="btn btn-link" onclick = "changeLanguage()" 
+            	align="center" id="languageSelect">Chinese</a>
+            
             <div id="wrapper">
                 <div id="login" class="animate form">
                     <form  action="loginAction" autocomplete="on">
-                        <h1>Log in</h1>
+                        <h1 id="loginTitle">Log in</h1>
                         <input type="hidden" name="actions" value="login">
                         <p>
-                            <label for="username" class="uname" data-icon="u" > Your email or username </label>
+                            <label for="username" class="uname" data-icon="u"> Your email or username </label>
                             <input id="username" name="user.username" required="required" type="text" placeholder="myusername or mymail@mail.com"/>
                         </p>
                         <p>
@@ -80,26 +85,94 @@
                 </div>
 
             </div>
+            
         </div>
-    </section>
+        
+    </section>	
 </div>
 </body>
 <script type="text/javascript">
-	function login () {
+
+	function getElementsByClassName(className, tagName) {
+		var ele = [], all = document.getElementsByTagName(tagName || "*");
+		for (var i = 0; i < all.length; i++) {
+			if (all[i].className == className) {
+				ele[ele.length] = all[i];
+			}
+		}
+		return ele;
+	}
+
+	function internationalization(language) {
+		var Info = {
+			"actions" : "login",
+			"language" : language
+		};
+
+		$.post("pageActions", Info, function(data) {
+			var msg = eval("(" + data + ")");
+			var ele = document.getElementById("loginTitle");
+			ele.innerText = msg.title;
+			var eles = getElementsByClassName("uname");
+			for (var i = 0; i < eles.length; i++) {
+				eles[i].innerText = msg.username;
+			}
+			eles = getElementsByClassName("youpasswd");
+			for (var i = 0; i < eles.length; i++) {
+				eles[i].innerText = msg.password;
+			}
+			eles = document.getElementsByTagName("input");
+			for (var i = 0; i < eles.length; i++) {
+				if (eles[i].type == "button") {
+					eles[i].value = msg.submit;
+				}
+			}
+
+			eles = getElementsByClassName("change_link");
+			//eles[0].innerText = msg.tip1;
+			//eles[1].innerText = msg.tip2 + '<a href="#tologin" class="to_register"> Go and log in </a>';
+
+			eles = getElementsByClassName("to_register");
+			eles[0].innerText = msg.tipLink1;
+			eles[1].innerText = msg.tipLink2;
+
+		}, 'json');
+	}
+
+	$(document).ready(function() {
+		internationalization("en");
+	});
+	
+	function changeLanguage(){
+		var ele = document.getElementById("languageSelect");
+		if (ele.innerText == "Chinese") {
+			internationalization("zh");
+			ele.innerText = "English"
+		}
+		else {
+			internationalization("en");
+			ele.innerText = "Chinese";
+		}
+	}
+
+	function login() {
 		var uname = document.getElementById('username').value;
-        var psw = document.getElementById('password').value;
-        
-        var userInfo = {
-    			"user.username" : uname,
-    			"user.password" : psw,
-        		"actions" : "login"
-				};
-        
-        $.post("accountActions", userInfo,
-	  				function(data){
-	  					var msg = eval("("+data+")");
-	  					if (msg.msg == "success") {
-	  						window.location.href="<%=request.getContextPath()%>/Pages/UserPages/queryBook.jsp";
+		var psw = document.getElementById('password').value;
+
+		var userInfo = {
+			"user.username" : uname,
+			"user.password" : psw,
+			"actions" : "login"
+		};
+
+		$
+				.post(
+						"accountActions",
+						userInfo,
+						function(data) {
+							var msg = eval("(" + data + ")");
+							if (msg.msg == "success") {
+								window.location.href = "<%=request.getContextPath()%>/Pages/UserPages/queryBook.jsp";
 	  					}
 	  					else {
 	  						sweetAlert("", "Wrong username or password!", "error");

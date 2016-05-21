@@ -13,9 +13,7 @@ import org.hornetq.utils.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import ejb.bean.CartBean;
 import ejb.bean.UserBean;
-import ejb.remote.CartManager;
 import ejb.remote.UserManager;
 import entityBean.User;
 

@@ -1,4 +1,4 @@
-package redis;
+package utils.redis;
 
 import java.util.ArrayList;
 import java.util.List;

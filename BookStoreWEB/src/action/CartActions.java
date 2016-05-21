@@ -13,7 +13,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.struts2.ServletActionContext;
 
-import redis.RedisClient;
+import utils.redis.RedisClient;
 
 import com.opensymphony.xwork2.ActionSupport;
 

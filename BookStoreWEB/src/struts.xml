@@ -14,6 +14,12 @@
 				<param name = "root">ja</param>
 			</result>
 		</action>
+		
+		<action name="pageActions" class="action.PageActions">
+			<result type = "json">
+				<param name = "root">ja</param>
+			</result>
+		</action>
 	
 		<action name="accountActions" class="action.UserActions">
 			<result type = "json">
