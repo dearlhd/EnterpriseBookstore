@@ -13,6 +13,8 @@ import net.sf.json.JSONObject;
 
 import org.apache.struts2.ServletActionContext;
 
+import redis.RedisClient;
+
 import com.opensymphony.xwork2.ActionSupport;
 
 import ejb.bean.BookBean;
@@ -116,6 +118,10 @@ public class CartActions extends ActionSupport{
 		cm.commitToOrder();
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		session.setAttribute("cartManager", cm);
+		
+		RedisClient rc = new RedisClient();
+		User user = (User)session.getAttribute("user");
+		rc.delOrders("order:"+user.getUsername());
 	}
 	
 	public String execute() throws Exception{

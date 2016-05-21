@@ -12,6 +12,8 @@ import net.sf.json.JSONArray;
 
 import org.apache.struts2.ServletActionContext;
 
+import redis.RedisClient;
+
 import com.opensymphony.xwork2.ActionSupport;
 
 import ejb.bean.OrderBean;
@@ -53,8 +55,19 @@ public class OrderActions extends ActionSupport{
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		User user = (User)session.getAttribute("user");
 		
+		RedisClient rc = new RedisClient();
+		
 		if (actions.equals("queryAllOrder")) {
-			List<Order> lo = om.getOrderByBuyer(user);
+			List<Order> lo = rc.getOrders("order:"+user.getUsername());
+			if (lo == null) {
+				lo = om.getOrderByBuyer(user);
+				rc.setOrders(lo);
+			}
+			else {
+				System.out.println("In redis");
+				System.out.println("size: "+lo.size());
+			}
+			
 			System.out.println("Query All: ");
 			
 			JSONArray jarray = JSONArray.fromObject(lo);

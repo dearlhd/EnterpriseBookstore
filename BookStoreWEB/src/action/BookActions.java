@@ -17,6 +17,8 @@ import ejb.remote.BookManager;
 import entityBean.Book;
 
 public class BookActions extends ActionSupport{
+	private static final long serialVersionUID = -2544932860809760770L;
+	
 	private Book book;
 	private String actions;
 	private String ja;

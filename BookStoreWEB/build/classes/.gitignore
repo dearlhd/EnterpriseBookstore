@@ -1,6 +1,2 @@
+/redis/
 /action/
-/interceptor/
-/jboss-ejb-client.properties
-/jndi.properties
-/struts.xml
-/websocket/
