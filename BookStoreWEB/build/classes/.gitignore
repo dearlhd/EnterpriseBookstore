@@ -1,3 +1,4 @@
-/redis/
 /action/
 /utils/
+/interceptor/
+/websocket/

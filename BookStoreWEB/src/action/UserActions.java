@@ -77,6 +77,7 @@ public class UserActions extends ActionSupport{
     		HttpSession session = ServletActionContext.getRequest().getSession();
     		session.setAttribute("user", user);
     	}
+		return;
 	}
 	
 	public String execute() throws Exception{
@@ -84,11 +85,11 @@ public class UserActions extends ActionSupport{
 		final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
 		jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 		final Context context = new InitialContext(jndiProperties);
-		final String appName = "";        //ÕâÀïÊÇ.EAR°üµÄÃû³Æ£¬Èç¹ûÄã´ò°ü³ÉJAR·¢²¼µÄ»°£¬ÕâÀïÔòÁô¿Õ
-	    final String moduleName = "BookStoreEJB";        //ÕâÀïÊÇÄã·¢²¼µÄJARÎÄ¼şÃû£¬Èçhelloworld.jar,ÔòÕâÀïÓ¦¸ÃÎªhelloworld¡£È¥µôºó×º¼´¿É
-	    final String distinctName = "";                  //Èç¹ûÃ»ÓĞ¶¨ÒåÆä¸üÏêÏ¸µÄÃû³Æ£¬ÔòÕâÀïÁô¿Õ
-	    final String beanName = UserBean.class.getSimpleName();           //ÕâÀïÎªÊµÏÖÀàµÄÃû³Æ
-	    final String viewClassName = UserManager.class.getName();        //ÕâÀïÎªÄãµÄ½Ó¿ÚÃû³Æ
+		final String appName = "";        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.EARï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JARï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	    final String moduleName = "BookStoreEJB";        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã·¢ï¿½ï¿½ï¿½ï¿½JARï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½helloworld.jar,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Îªhelloworldï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½×ºï¿½ï¿½ï¿½ï¿½
+	    final String distinctName = "";                  //ï¿½ï¿½ï¿½Ã»ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	    final String beanName = UserBean.class.getSimpleName();           //ï¿½ï¿½ï¿½ï¿½ÎªÊµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	    final String viewClassName = UserManager.class.getName();        //ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ä½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½
 	    try {
 	    	UserManager um = (UserManager) context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + viewClassName);
 	    	if (actions.equals("login") || actions.equals("register")) {
