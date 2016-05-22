@@ -99,6 +99,7 @@ public class UserUtil {
 		try {
 			User user = new User();
 			JSONObject jo = JSONObject.fromObject(obj);
+			System.out.println(jo.toString());
 			user = (User)JSONObject.toBean(jo, User.class);
 			checkHttpBody(jo);
 			
@@ -109,7 +110,7 @@ public class UserUtil {
 			if (user.getAge() == 0) user.setAge(userInDB.getAge());
 			if (user.getEmail() == null) user.setEmail(userInDB.getEmail());
 			
-			return user;
+			return um.updateUserInfo(user);
 		} catch (ClassCastException e) {
 			System.out.println("class cast exception");
 			e.printStackTrace();

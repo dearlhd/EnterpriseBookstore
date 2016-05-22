@@ -165,18 +165,22 @@
 			"actions" : "login"
 		};
 
-		$
-				.post(
-						"accountActions",
-						userInfo,
-						function(data) {
-							var msg = eval("(" + data + ")");
-							if (msg.msg == "success") {
-								window.location.href = "<%=request.getContextPath()%>/Pages/UserPages/queryBook.jsp";
-	  					}
-	  					else {
-	  						sweetAlert("", "Wrong username or password!", "error");
-	  					}
+		$.post(
+				"accountActions",
+				userInfo,
+				function(data) {
+					var msg = eval("(" + data + ")");
+					if (msg.msg == "success") {
+						if (msg.role == 0) {
+  							window.location.href="<%=request.getContextPath()%>/Pages/UserPages/queryBook.jsp";
+  						}
+  						else if (msg.role == 1) {
+  							window.location.href="<%=request.getContextPath()%>/Pages/ManagerPages/accountManage.jsp";
+  						}
+ 					}
+ 					else {
+ 						sweetAlert("", "Wrong username or password!", "error");
+ 					}
 				}, 'json');
 	}
 	
@@ -213,7 +217,7 @@
   							window.location.href="<%=request.getContextPath()%>/Pages/UserPages/queryBook.jsp";
   						}
   						else if (msg.role == 1) {
-  							window.location.href="<%=request.getContextPath()%>/Pages/ManagerPages/addBook.jsp";
+  							window.location.href="<%=request.getContextPath()%>/Pages/ManagerPages/accountManage.jsp";
   						}
   						
   					}

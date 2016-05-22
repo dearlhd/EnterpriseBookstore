@@ -102,7 +102,7 @@ public class UserDao implements UserDaoRemote {
 	@Override
 	public User deleteUser(String name) {
 		User user = getUserByName(name);
-		em.remove(user);
+		em.remove(em.merge(user));
 		return user;
 	}
     
