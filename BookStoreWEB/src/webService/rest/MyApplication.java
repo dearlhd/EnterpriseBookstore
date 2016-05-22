@@ -1,4 +1,4 @@
-package rest;
+package webService.rest;
 
 import java.util.HashSet;
 import java.util.Set;

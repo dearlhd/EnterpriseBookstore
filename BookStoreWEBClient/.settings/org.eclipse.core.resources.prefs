@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+encoding//src/entityBean/Book.java=UTF-8
+encoding//src/webService/soap/SOAPBookService.java=UTF-8
+encoding//src/webService/soap/SOAPBookServiceService.java=UTF-8
+encoding//src/webService/soap/SOAPBookServiceServiceLocator.java=UTF-8
+encoding//src/webService/soap/SOAPBookServiceSoapBindingStub.java=UTF-8
