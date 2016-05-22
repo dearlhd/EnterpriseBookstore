@@ -4,7 +4,7 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-	<constant name="struts.action.excludePattern" value="/chatRoom*,^ws://.+$"/>
+	<constant name="struts.action.excludePattern" value="/chatRoom*,^ws://.+$,/rest/.*"/>
 	
 	<include file="struts-default.xml" />
 	
