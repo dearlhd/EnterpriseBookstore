@@ -13,4 +13,5 @@ public interface UserDaoRemote {
 	public User getUserByName(String name);
 	public List<User> getUsersByFuzzyName(String name);
 	public User updateUserInfo(User user);
+	public User deleteUser(String name);
 }

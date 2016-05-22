@@ -24,33 +24,9 @@ public class UserBean implements UserManager {
      * Default constructor. 
      */
     public UserBean() {
-        // TODO Auto-generated constructor stub
+    	
     }
     
-    @Override
-    public String sayHello(String str) {
-    	System.out.println("hello world");
-    	return "hello "+str;
-    }
-    
-    @Override
-    public User retUser(int n) {
-    	User user= new User();
-    	user.setUsername("luo");
-    	user.setPassword("123");
-    	user.setAge(22);
-    	user.setEmail("abc@123.com");
-    	user.setUserId(1);
-    	System.out.println("Before dao");
-    	List<User> ulist = dao.getUsersByFuzzyName("l");
-    	System.out.println(ulist.size());
-    	if (ulist.size() > 0) {
-    		System.out.println(ulist.get(0).getUsername());
-    	}
-    	user = dao.getUserByID(1);
-    	return user;
-    }
-
 	@Override
 	public User login(User user) {
 		String name = user.getUsername();
@@ -96,5 +72,13 @@ public class UserBean implements UserManager {
 	@Override
 	public User updateUserInfo(User user) {
 		return dao.updateUserInfo(user);
+	}
+	
+	@Override
+	public User deleteUser (String name) {
+		if (dao.getUserByName(name) != null) {
+			return dao.deleteUser(name);
+		}
+		return null;
 	}
 }

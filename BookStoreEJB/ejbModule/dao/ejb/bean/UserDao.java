@@ -30,7 +30,7 @@ public class UserDao implements UserDaoRemote {
 
 	@Override
 	public void addUser(User user) {
-        em.persist(user); //³Ö¾Ã»¯ÊµÌå  
+        em.persist(user); //ï¿½Ö¾Ã»ï¿½Êµï¿½ï¿½  
 	}
 
 	public List<User> getUsersBySql (Query query) {
@@ -94,10 +94,16 @@ public class UserDao implements UserDaoRemote {
 
 	@Override
 	public User updateUserInfo(User user) {
-		// TODO Auto-generated method stub
-		User newUser = em.merge(user); //³Ö¾Ã»¯ÊµÌå
+		User newUser = em.merge(user); //ï¿½Ö¾Ã»ï¿½Êµï¿½ï¿½
 		em.flush();
 		return newUser;
+	}
+
+	@Override
+	public User deleteUser(String name) {
+		User user = getUserByName(name);
+		em.remove(user);
+		return user;
 	}
     
 }

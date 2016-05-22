@@ -14,7 +14,5 @@ public interface UserManager {
 	public User searchUserByName(String name);
 	public List<User> searchUsersByFuzzyName(String name);
 	public User updateUserInfo(User user);
-	
-	public String sayHello(String str);
-	public User retUser (int n);
+	public User deleteUser (String name);
 }
