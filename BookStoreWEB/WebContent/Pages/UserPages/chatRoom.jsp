@@ -147,7 +147,7 @@
 <script type="text/javascript">
 	var wsocket;
 	function connect() {
-		wsocket = new WebSocket("ws://localhost:8888/BookStoreWEB/chatRoom");
+		wsocket = new WebSocket("wss://localhost:8443/BookStoreWEB/chatRoom");
         wsocket.onmessage = onMessage;
 	}
 	

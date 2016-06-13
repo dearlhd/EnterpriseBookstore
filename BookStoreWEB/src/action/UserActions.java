@@ -85,11 +85,11 @@ public class UserActions extends ActionSupport{
 		final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
 		jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 		final Context context = new InitialContext(jndiProperties);
-		final String appName = "";        //������.EAR�������ƣ����������JAR�����Ļ�������������
-	    final String moduleName = "BookStoreEJB";        //�������㷢����JAR�ļ�������helloworld.jar,������Ӧ��Ϊhelloworld��ȥ����׺����
-	    final String distinctName = "";                  //���û�ж��������ϸ�����ƣ�����������
-	    final String beanName = UserBean.class.getSimpleName();           //����Ϊʵ���������
-	    final String viewClassName = UserManager.class.getName();        //����Ϊ��Ľӿ�����
+		final String appName = "";        
+	    final String moduleName = "BookStoreEJB";        
+	    final String distinctName = "";                  
+	    final String beanName = UserBean.class.getSimpleName();           
+	    final String viewClassName = UserManager.class.getName();        
 	    try {
 	    	UserManager um = (UserManager) context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + viewClassName);
 	    	if (actions.equals("login") || actions.equals("register")) {

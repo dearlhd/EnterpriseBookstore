@@ -12,16 +12,15 @@ public class LocaleUtil {
 		String basename = "utils.locale.resource";
 		
 		if (ss.equals("zh")) {
-			rb = ResourceBundle.getBundle( basename, Locale.CHINA);;
+			rb = ResourceBundle.getBundle( basename, Locale.CHINA);
 		}
 		else if (ss.equals("en")) {
-			rb = ResourceBundle.getBundle( basename, Locale.US);;
+			rb = ResourceBundle.getBundle( basename, Locale.US);
 		}
 	}
 	
 	public String getInfos () {
 		JSONObject jo = new JSONObject();
-		System.out.println(rb.getString("login.title"));
 		
 		jo.put("title", rb.getString("login.title"));
 		jo.put("username", rb.getString("login.username"));

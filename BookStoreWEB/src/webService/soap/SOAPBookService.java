@@ -1,7 +1,6 @@
 package webService.soap;
 
 import java.util.Hashtable;
-import java.util.List;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;

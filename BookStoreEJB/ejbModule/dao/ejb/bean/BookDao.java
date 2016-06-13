@@ -37,6 +37,7 @@ public class BookDao implements BookDaoRemote {
 	List<Book> getBooksBySql (Query query) {
 		List booklist = query.getResultList();
 		if (booklist.size() == 0) {
+			System.out.println("Query book return empty list");
 			return null;
 		}
 		else {
@@ -60,7 +61,7 @@ public class BookDao implements BookDaoRemote {
 	@Override
 	public Book getBookById(long bookId) {
 		System.out.println("Dao: get by id: " + bookId);
-		Query query = em.createNativeQuery("select * from Books Where bookId=:bookId");
+		Query query = em.createNativeQuery("select * from books Where bookId=:bookId");
 		query.setParameter("bookId", bookId);
 		List<Book> blist = getBooksBySql(query);
 		if (blist.size() == 0) {
@@ -71,21 +72,21 @@ public class BookDao implements BookDaoRemote {
 	
 	@Override
 	public List<Book> getBookByTitle(String title) {
-		Query query = em.createNativeQuery("select * from Books Where title=:title");
+		Query query = em.createNativeQuery("select * from books Where title=:title");
 		query.setParameter("title", title);
 		return getBooksBySql(query);
 	}
 
 	@Override
 	public List<Book> getBookByAuthor(String author) {
-		Query query = em.createNativeQuery("select * from Books Where author=:author");
+		Query query = em.createNativeQuery("select * from books Where author=:author");
 		query.setParameter("author", author);
 		return getBooksBySql(query);
 	}
 	
 	@Override
 	public List<Book> listBooksByFuzzyTitle(String title) {
-		Query query = em.createNativeQuery("select * from Books Where title like :title");
+		Query query = em.createNativeQuery("select * from books Where title like :title");
 		query.setParameter("title", "%"+title+"%");
 		return getBooksBySql(query);
 	}

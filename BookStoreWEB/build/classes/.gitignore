@@ -4,3 +4,6 @@
 /websocket/
 /rest/
 /webService/
+/jboss-ejb-client.properties
+/jndi.properties
+/struts.xml

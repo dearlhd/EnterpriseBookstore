@@ -58,7 +58,7 @@ public class UserDao implements UserDaoRemote {
 	
 	@Override
 	public User getUserByID(int id) {
-		Query query = em.createNativeQuery("select * from Users Where UserId=:id");
+		Query query = em.createNativeQuery("select * from users Where UserId=:id");
 		query.setParameter("id", id);
 		
 		List<User> ul = getUsersBySql(query);
@@ -70,7 +70,7 @@ public class UserDao implements UserDaoRemote {
 
 	@Override
 	public User getUserByName(String name) {
-		Query query = em.createNativeQuery("select * from Users Where username=:username");
+		Query query = em.createNativeQuery("select * from users Where username=:username");
 		query.setParameter("username", name);
 		
 		List<User> ul = getUsersBySql(query);
@@ -82,7 +82,7 @@ public class UserDao implements UserDaoRemote {
 
 	@Override
 	public List<User> getUsersByFuzzyName(String name) {
-		Query query = em.createNativeQuery("select * from Users Where username like :username");
+		Query query = em.createNativeQuery("select * from users Where username like :username");
 		query.setParameter("username", "%"+name+"%");
 		
 		List<User> ul = getUsersBySql(query);

@@ -60,33 +60,33 @@ public class OrderDao implements OrderDaoRemote {
 	
 	@Override
 	public List<Order> checkOrderByBuyer(User user) {
-		Query query = em.createNativeQuery("select * from Orders Where buyer=:buyer");
+		Query query = em.createNativeQuery("select * from orders Where buyer=:buyer");
 		query.setParameter("buyer", user.getUsername());
 		return checkOrderBySql(query);
 	}
 
 	@Override
 	public List<Order> checkOrderByBook(Book book) {
-		Query query = em.createNativeQuery("select * from Orders Where bookTitle=:bookTitle");
+		Query query = em.createNativeQuery("select * from orders Where bookTitle=:bookTitle");
 		query.setParameter("bookTitle", book.getTitle());
 		return checkOrderBySql(query);
 	}
 
 	@Override
 	public List<Order> checkOrderByTime(String time, int flag) {
-		//°´Äê      by year
+		//ï¿½ï¿½ï¿½ï¿½      by year
 		if (flag == 1) {
-			Query query = em.createNativeQuery("select * from Orders Where orderTime like :time");
+			Query query = em.createNativeQuery("select * from orders Where orderTime like :time");
 			query.setParameter("time", "%"+time+"-%");
 			return checkOrderBySql(query);
 		}
 		else if (flag == 2) {
-			Query query = em.createNativeQuery("select * from Orders Where orderTime like :time");
+			Query query = em.createNativeQuery("select * from orders Where orderTime like :time");
 			query.setParameter("time", "%-"+time+"-%");
 			return checkOrderBySql(query);
 		}
 		else if (flag == 3) {
-			Query query = em.createNativeQuery("select * from Orders Where orderTime like :time");
+			Query query = em.createNativeQuery("select * from orders Where orderTime like :time");
 			query.setParameter("time", "%-"+time+"%");
 			return checkOrderBySql(query);
 		}
@@ -95,15 +95,15 @@ public class OrderDao implements OrderDaoRemote {
 
 	@Override
 	public List<Order> checkOrderByUserAndTime(String username, String time, int flag) {
-		//°´Äê      by year
+		//ï¿½ï¿½ï¿½ï¿½      by year
 				if (flag == 1 || flag == 2) {
-					Query query = em.createNativeQuery("select * from Orders Where buyer = :username and orderTime like :time");
+					Query query = em.createNativeQuery("select * from orders Where buyer = :username and orderTime like :time");
 					query.setParameter("username", username);
 					query.setParameter("time", time+"-%");
 					return checkOrderBySql(query);
 				}
 				else if (flag == 3) {
-					Query query = em.createNativeQuery("select * from Orders Where buyer = :username and orderTime = :time");
+					Query query = em.createNativeQuery("select * from orders Where buyer = :username and orderTime = :time");
 					query.setParameter("username", username);
 					query.setParameter("time", time);
 					return checkOrderBySql(query);

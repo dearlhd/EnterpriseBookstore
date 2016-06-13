@@ -175,7 +175,7 @@
 		}
 		else if (searchType == "author") {
 			searchInfo = {
-					"book.title": arg,
+					"book.author": arg,
 					"actions": "queryByAuthor"
 			}
 		}
